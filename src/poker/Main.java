@@ -1,6 +1,7 @@
 package poker;
 
 import java.util.ArrayList;
+import poker.HandValue.*;
 
 public class Main {
 
@@ -12,24 +13,15 @@ public class Main {
 		// TODO Auto-generated method stub
 		Deck mydeck = new Deck();
 		
+		HandEvaluator evaluator = new Flush();
 		
-		ArrayList<CardPos> cards = new ArrayList<CardPos>();
+		evaluator.addCard(new CardPos(new Card(CardRank.Q, CardSuit.DIAMONDS), 0));
+		evaluator.addCard(new CardPos(new Card(CardRank.J, CardSuit.DIAMONDS), 0));
+		evaluator.addCard(new CardPos(new Card(CardRank._7, CardSuit.DIAMONDS), 0));
+		evaluator.addCard(new CardPos(new Card(CardRank._5, CardSuit.DIAMONDS), 0));
+		evaluator.addCard(new CardPos(new Card(CardRank._4, CardSuit.DIAMONDS), 0));
 		
-		System.out.println(mydeck);
-		
-		/*
-		cards.add(mydeck.draw());
-		cards.add(mydeck.draw());
-		cards.add(mydeck.draw());
-		cards.add(mydeck.draw());
-		cards.add(mydeck.draw());
-		*/
-		
-		System.out.println(cards);
-		
-		cards.sort(new CardPosComparator());
-		
-		System.out.println(cards);
+		System.out.println(evaluator.getHandRank());
 		
 	}
 

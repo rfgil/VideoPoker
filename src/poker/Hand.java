@@ -9,21 +9,22 @@ public class Hand {
 	
 	private List<CardPos> cards;
 	
-	HandEvaluator[] evaluators;
+	private HandEvaluator[] evaluators;
 	
 	public Hand() {
 		this.cards = new ArrayList<CardPos>(Game.HAND_SIZE);
+	}
+	
+	private void renewEvaluators(){
+		HandEvaluator[] evaluators = new HandEvaluator[7];
 		
-		HandEvaluator[] evaluators = new HandEvaluator[8];
-		
-		evaluators[0] = new Straight();
-		evaluators[1] = new FOAK();
-		evaluators[2] = new FullHouse();
+		//evaluators[0] = new Straight();
+		//evaluators[1] = new FOAK();
+		//evaluators[2] = new FullHouse();
 		evaluators[3] = new Flush();
-		evaluators[4] = new TOAK();
-		evaluators[5] = new TwoPair();
-		evaluators[6] = new Pair();
-		evaluators[7] = new HighCard();
+		//evaluators[4] = new TOAK();
+		//evaluators[5] = new Pair();
+		//evaluators[6] = new HighCard();
 	}
 	
 	public void addCard(int pos, Card card){
@@ -39,18 +40,50 @@ public class Hand {
 		}
 	}
 	
-	public void valueHand(){
+	public List<CardPos> getAdvice(){
+		renewEvaluators();
 		cards.sort(new CardPosComparator());
 		
+		HandEvaluator selected_evaluator = evaluators[0];
+		AdviceRank best_advice = AdviceRank.DiscardEverything;
+		
+		// Adiciona cartas a todos os avaliadores por ordem de rank
 		for (CardPos card_pos : cards){
-			for(HandValue evaluator: evaluators){
+			for(HandEvaluator evaluator: evaluators){
 				evaluator.addCard(card_pos);
 			}
 		}
+		
+		// Obtem o avaliador com melhor sugestão
+		for(HandEvaluator evaluator: evaluators){
+			if (evaluator.getAdviceRank().compareTo(best_advice) < 0){
+				selected_evaluator = evaluator;
+			}
+		}
+		
+		return selected_evaluator.getAdviceHoldVector();
 	}
 	
-	public void getAdvice(){
+	public HandRank getHandRank(){
+		renewEvaluators();
+		cards.sort(new CardPosComparator());
 		
+		HandRank best_rank = HandRank.Nothing;
 		
+		// Adiciona cartas a todos os avaliadores por ordem de rank
+		for (CardPos card_pos : cards){
+			for(HandEvaluator evaluator: evaluators){
+				evaluator.addCard(card_pos);
+			}
+		}
+		
+		// Obtem o avaliador com melhor sugestão
+		for(HandEvaluator evaluator: evaluators){
+			if (evaluator.getHandRank().compareTo(best_rank) < 0){
+				best_rank = evaluator.getHandRank();
+			}
+		}
+		
+		return best_rank;
 	}
 }

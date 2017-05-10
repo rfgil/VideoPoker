@@ -4,8 +4,11 @@ import java.util.List;
 import poker.CardPos;
 
 public interface HandEvaluator {
-
+	
 	public void addCard(CardPos card_pos);
-	public int adviceRank();
-	public List<Integer> adviceHoldVector();
+	
+	public AdviceRank getAdviceRank();
+	public List<CardPos> getAdviceHoldVector();
+	
+	public HandRank getHandRank();
 }
