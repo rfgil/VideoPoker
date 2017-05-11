@@ -1,13 +1,13 @@
-package poker.HandValue;
+package com.video_poker.hand_evaluator;
 
 import java.util.List;
+
+import com.card_game.CardRank;
+import com.card_game.CardSuit;
+import com.video_poker.CardPos;
+import com.video_poker.Game;
+
 import java.util.ArrayList;
-
-
-import poker.CardPos;
-import poker.CardRank;
-import poker.CardSuit;
-import poker.Game;
 
 
 
@@ -132,7 +132,8 @@ public class Flush implements HandEvaluator {
 	@Override
 	public List<CardPos> getAdviceHoldVector() {
 		if (advice_hold_list == null){
-			// Excepção! Pressupõe-se que adviceRank é chamado em primeiro lugar
+			// caso a função getAdvicenk() não tenha sido chamada
+			getAdviceRank();
 		}
 		
 		return advice_hold_list;

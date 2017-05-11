@@ -1,4 +1,4 @@
-package poker.HandValue;
+package com.video_poker.hand_evaluator;
 
 public enum HandRank {
 	 RoyalFLush(250),

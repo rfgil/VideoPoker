@@ -1,4 +1,6 @@
-package poker.HandValue;
+package com.video_poker.hand_evaluator;
+
+import com.card_game.Card;
 
 import poker.*;
 

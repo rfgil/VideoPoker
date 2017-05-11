@@ -1,4 +1,6 @@
-package poker;
+package com.video_poker;
+
+import com.card_game.Card;
 
 public class CardPos {
 	
@@ -9,5 +11,10 @@ public class CardPos {
 		// TODO Auto-generated constructor stub
 		this.card = card;
 		this.pos = pos;
+	}
+
+	@Override
+	public String toString() {
+		return card.toString();
 	}
 }

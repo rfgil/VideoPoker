@@ -1,7 +1,7 @@
-package poker.HandValue;
+package com.video_poker.hand_evaluator;
 
-import poker.Card;
-import poker.CardRank;
+import com.card_game.Card;
+import com.card_game.CardRank;
 
 public class FullHouse implements HandValue{
 

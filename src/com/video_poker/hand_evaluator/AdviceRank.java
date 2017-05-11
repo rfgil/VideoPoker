@@ -1,4 +1,4 @@
-package poker.HandValue;
+package com.video_poker.hand_evaluator;
 
 public enum AdviceRank {
 	 StraightFlush, FOAK, Royal, // Não há problema de dividir porque a ordem do rank é mantida (e não é possivel ter 2 destes simultaneamente)

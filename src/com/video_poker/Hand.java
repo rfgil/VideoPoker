@@ -1,8 +1,16 @@
-package poker;
+package com.video_poker;
 
 import poker.HandValue.*;
 
 import java.util.List;
+
+import com.card_game.Card;
+import com.video_poker.hand_evaluator.AdviceRank;
+import com.video_poker.hand_evaluator.FOAK;
+import com.video_poker.hand_evaluator.Flush;
+import com.video_poker.hand_evaluator.HandEvaluator;
+import com.video_poker.hand_evaluator.HandRank;
+
 import java.util.ArrayList; 
 
 public class Hand {
@@ -19,7 +27,7 @@ public class Hand {
 		HandEvaluator[] evaluators = new HandEvaluator[7];
 		
 		//evaluators[0] = new Straight();
-		//evaluators[1] = new FOAK();
+		evaluators[1] = new FOAK();
 		//evaluators[2] = new FullHouse();
 		evaluators[3] = new Flush();
 		//evaluators[4] = new TOAK();
@@ -27,11 +35,11 @@ public class Hand {
 		//evaluators[6] = new HighCard();
 	}
 	
-	public void addCard(int pos, Card card){
+	protected void addCard(int pos, Card card){
 		cards.add(new CardPos(card, pos));
 	}
 	
-	public void swapCard(int pos, Card newCard){
+	protected void swapCard(int pos, Card newCard){
 		// Procura pela carta na posição pretendida
 		for(CardPos item: cards){
 			if(item.pos == pos){

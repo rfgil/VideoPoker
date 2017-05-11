@@ -1,7 +1,8 @@
-package poker.HandValue;
+package com.video_poker.hand_evaluator;
 
 import java.util.List;
-import poker.CardPos;
+
+import com.video_poker.CardPos;
 
 public interface HandEvaluator {
 	

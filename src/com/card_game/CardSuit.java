@@ -1,4 +1,4 @@
-package poker;
+package com.card_game;
 
 public enum CardSuit {
 	SPADES,

@@ -1,4 +1,4 @@
-package poker;
+package com.card_game;
 
 import java.util.Arrays;
 import java.util.Random;

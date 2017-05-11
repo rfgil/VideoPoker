@@ -1,4 +1,4 @@
-package poker;
+package com.video_poker;
 
 import java.util.Comparator;
 

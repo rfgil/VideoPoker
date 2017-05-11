@@ -1,6 +1,6 @@
-package poker.HandValue;
+package com.video_poker.hand_evaluator;
 
-import poker.Card;
+import com.card_game.Card;
 
 public class HighCard implements HandValue{
 

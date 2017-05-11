@@ -1,4 +1,6 @@
-package poker;
+package com.video_poker;
+
+import com.card_game.Deck;
 
 public class Game {
 
