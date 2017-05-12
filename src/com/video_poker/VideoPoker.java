@@ -3,13 +3,14 @@ package com.video_poker;
 import java.util.List;
 
 import com.card_game.Deck;
-import com.card_game.NotEnoughBalance;
+import com.card_game.NotEnoughBalanceException;
 
 public abstract class VideoPoker {
 	
 	public static final int MAX_BET = 5;
 	
-	private VideoPokerPlayer player;
+	protected VideoPokerPlayer player;
+	
 	private Game game;
 	private Deck deck;
 
@@ -40,13 +41,13 @@ public abstract class VideoPoker {
 		handAfterDeal(game.hand);
 	}
 	
-	public void bet(int value) throws IllegalCommandException, InvalidBetAmmount, NotEnoughBalance {	
+	public void bet(int value) throws IllegalCommandException, InvalidBetAmmountException, NotEnoughBalanceException {	
 		if (game != null){ // bet só é permitido antes do inicio do jogo
 			throw new IllegalCommandException();
 		}
 		
 		if (value < 1 || value > MAX_BET){
-			throw new InvalidBetAmmount();
+			throw new InvalidBetAmmountException();
 		}
 		
 		if (isBetSet){
@@ -55,7 +56,7 @@ public abstract class VideoPoker {
 				player.debit(value - this.credits); // Faz debito da diferença (ou crédito se dif < 0)
 				this.credits = value;
 				
-			} catch (NotEnoughBalance e) {
+			} catch (NotEnoughBalanceException e) {
 				// Remove todas as apostas
 				this.isBetSet = false;
 				player.credit(this.credits); // Nunca lançará exceção porque só são permitidos valores positivos em credits
@@ -70,7 +71,7 @@ public abstract class VideoPoker {
 		}
 	}
 	
-	public void credit(int value) throws NotEnoughBalance {
+	public void credit(int value) throws NotEnoughBalanceException {
 		this.player.credit(value);
 	}
 	
@@ -84,7 +85,7 @@ public abstract class VideoPoker {
 		
 		try {
 			player.getPayout(game.hand.getHandRank(), credits);
-		} catch (InvalidBetAmmount e){
+		} catch (InvalidBetAmmountException e){
 			// É garantido que  valor de bet estará correcto uma vez que essa confirmação é feita em bet
 		}
 		

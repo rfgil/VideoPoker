@@ -3,6 +3,7 @@ package com.video_poker;
 import java.util.List;
 
 import com.card_game.Card;
+import com.card_game.Deck;
 import com.video_poker.hand_evaluator.AdviceRank;
 import com.video_poker.hand_evaluator.FOAK;
 import com.video_poker.hand_evaluator.Flush;
@@ -22,12 +23,16 @@ public class Hand {
 	}
 	
 	private void renewEvaluators(){
-		HandEvaluator[] evaluators = new HandEvaluator[7];
+		//HandEvaluator[] evaluators = new HandEvaluator[7];
+		this.evaluators = new HandEvaluator[2];
+		
+		evaluators[0] = new FOAK();
+		evaluators[1] = new Flush();
 		
 		//evaluators[0] = new Straight();
-		evaluators[1] = new FOAK();
+		//evaluators[1] = new FOAK();
 		//evaluators[2] = new FullHouse();
-		evaluators[3] = new Flush();
+		//evaluators[3] = new Flush();
 		//evaluators[4] = new TOAK();
 		//evaluators[5] = new Pair();
 		//evaluators[6] = new HighCard();
@@ -37,11 +42,11 @@ public class Hand {
 		cards.add(new CardPos(card, pos));
 	}
 	
-	protected void swapCard(int pos, Card newCard){
+	protected void swapCards(boolean[] hold, Deck deck){
 		// Procura pela carta na posição pretendida
 		for(CardPos item: cards){
-			if(item.pos == pos){
-				item.card = newCard;
+			if(!hold[item.pos]){
+				item.card = deck.draw();
 			}
 		}
 	}
@@ -95,6 +100,7 @@ public class Hand {
 
 	@Override
 	public String toString() {
+		cards.sort(new CardPosComparator(true));
 		return "Hand [cards=" + cards + "]";
 	}
 }

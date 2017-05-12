@@ -1,6 +1,6 @@
 package com.video_poker.hand_evaluator;
 
-import com.video_poker.InvalidBetAmmount;
+import com.video_poker.InvalidBetAmmountException;
 import com.video_poker.VideoPoker;
 
 public enum HandRank {
@@ -22,9 +22,9 @@ public enum HandRank {
 		this.return_value = return_value;
 	}
 	
-	public int getPayout(int credits) throws InvalidBetAmmount{
+	public int getPayout(int credits) throws InvalidBetAmmountException{
 		if (credits < 1 || credits > VideoPoker.MAX_BET){
-			throw new InvalidBetAmmount();
+			throw new InvalidBetAmmountException();
 		} 
 		
 		if (this.equals(RoyalFLush) && credits == VideoPoker.MAX_BET){ // Caso especial para o Royal Flush e aposta máxima

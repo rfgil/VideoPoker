@@ -7,7 +7,7 @@ public class Player {
 	public Player() {
 	}
 	
-	public void credit(int value) throws NotEnoughBalance{
+	public void credit(int value) throws NotEnoughBalanceException{
 		if (value >= 0){
 			balance += value;
 		} else {
@@ -16,7 +16,7 @@ public class Player {
 		}
 	}
 	
-	public void debit(int value) throws NotEnoughBalance {
+	public void debit(int value) throws NotEnoughBalanceException {
 		if (value < 0){
 			// Fazer debito de um valor negativo corresponde a fazer credito do seu simetrico
 			credit(-value);
@@ -26,7 +26,7 @@ public class Player {
 			
 		} else {
 			// Exceção
-			throw new NotEnoughBalance(value);
+			throw new NotEnoughBalanceException(value);
 		}
 	}
 	

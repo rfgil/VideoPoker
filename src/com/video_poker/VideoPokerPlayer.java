@@ -1,6 +1,6 @@
 package com.video_poker;
 
-import com.card_game.NotEnoughBalance;
+import com.card_game.NotEnoughBalanceException;
 import com.card_game.Player;
 import com.video_poker.hand_evaluator.HandRank;
 
@@ -17,13 +17,13 @@ public class VideoPokerPlayer extends Player{
 		}
 	}
 	
-	public void getPayout(HandRank hand_rank, int credits) throws InvalidBetAmmount{
+	public void getPayout(HandRank hand_rank, int credits) throws InvalidBetAmmountException{
 		stats[hand_rank.ordinal()].update(credits);
 		int payout = hand_rank.getPayout(credits);
 		
 		try {
 			this.credit(payout);
-		} catch (NotEnoughBalance e){
+		} catch (NotEnoughBalanceException e){
 			// Nunca vai acontecer porque InvalidBetAmmount é lançado caso o valor da aposta não seja válido
 			// ou seja payout nunca será negativo e por isso é sempre feito credito e nunca débito
 		}

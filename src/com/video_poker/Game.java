@@ -29,8 +29,12 @@ public class Game {
 	}
 		
 	public void draw(){
+		boolean[] hold = new boolean[HAND_SIZE]; // Iniciliza a false
+		
 		for(int hold_pos : hold_list){
-			hand.swapCard(hold_pos, deck.draw());
+			hold[hold_pos] = true; 
 		}
+		
+		hand.swapCards(hold, deck);
 	}
 }
