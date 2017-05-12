@@ -18,7 +18,7 @@ public class Statistic {
 		this.gained_credits = 0;
 	}
 	
-	public void won(int credits){
+	public void update(int credits) throws InvalidBetAmmount{
 		this.invested_credits += credits;
 		this.gained_credits += hand_rank.getPayout(credits);
 	}

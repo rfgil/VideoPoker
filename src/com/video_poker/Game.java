@@ -1,5 +1,8 @@
 package com.video_poker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.card_game.Deck;
 
 public class Game {
@@ -9,33 +12,25 @@ public class Game {
 	private Deck deck;
 	
 	protected Hand hand;
-	private boolean[] hold_vector;
+	private List<Integer> hold_list;
 	
 	public Game(Deck deck) {
 		this.deck = deck;
+		this.hold_list = new ArrayList<Integer>(0); // Não faz hold de nenhuma carta por defeito
 		
 		hand = new Hand();
-		hold_vector = new boolean[HAND_SIZE];
-		
 		for (int i=0; i < HAND_SIZE ; i++){
 			hand.addCard(i, deck.draw());
-			hold_vector[i] = false;
 		}
 	}
 	
-	public void hold(int pos) {
-		if (pos > HAND_SIZE || pos < 0){
-			// Lançar excepção
-		}
+	public void hold(List<Integer> hold_list){
+		this.hold_list = hold_list;
+	}
 		
-		this.hold_vector[pos] = true;
-	}
-	
 	public void draw(){
-		for(int i=0; i<HAND_SIZE; i++){
-			if (!hold_vector[i]){
-				hand.swapCard(i, deck.draw());
-			}
+		for(int hold_pos : hold_list){
+			hand.swapCard(hold_pos, deck.draw());
 		}
 	}
 }

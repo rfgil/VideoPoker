@@ -1,7 +1,5 @@
 package com.video_poker;
 
-import poker.HandValue.*;
-
 import java.util.List;
 
 import com.card_game.Card;
@@ -19,7 +17,7 @@ public class Hand {
 	
 	private HandEvaluator[] evaluators;
 	
-	public Hand() {
+	protected Hand() {
 		this.cards = new ArrayList<CardPos>(Game.HAND_SIZE);
 	}
 	
@@ -48,7 +46,7 @@ public class Hand {
 		}
 	}
 	
-	public List<CardPos> getAdvice(){
+	protected List<CardPos> getAdvice(){
 		renewEvaluators();
 		cards.sort(new CardPosComparator());
 		
@@ -72,7 +70,7 @@ public class Hand {
 		return selected_evaluator.getAdviceHoldVector();
 	}
 	
-	public HandRank getHandRank(){
+	protected HandRank getHandRank(){
 		renewEvaluators();
 		cards.sort(new CardPosComparator());
 		
@@ -93,5 +91,10 @@ public class Hand {
 		}
 		
 		return best_rank;
+	}
+
+	@Override
+	public String toString() {
+		return "Hand [cards=" + cards + "]";
 	}
 }

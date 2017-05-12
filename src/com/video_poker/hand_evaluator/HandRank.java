@@ -1,5 +1,8 @@
 package com.video_poker.hand_evaluator;
 
+import com.video_poker.InvalidBetAmmount;
+import com.video_poker.VideoPoker;
+
 public enum HandRank {
 	 RoyalFLush(250),
 	 StraightFlush(50),
@@ -19,12 +22,16 @@ public enum HandRank {
 		this.return_value = return_value;
 	}
 	
-	public int getPayout(int credits){
-		if (credits < 1 || credits > 5){
-			// Excepção
-		} else if (this.equals(RoyalFLush) && credits == 5){
-			return 4000;
+	public int getPayout(int credits) throws InvalidBetAmmount{
+		if (credits < 1 || credits > VideoPoker.MAX_BET){
+			throw new InvalidBetAmmount();
+		} 
+		
+		if (this.equals(RoyalFLush) && credits == VideoPoker.MAX_BET){ // Caso especial para o Royal Flush e aposta máxima
+			//factor = 4000 / (250 * 5 credits) = 3.2
+			return (int) (credits * return_value * 3.2);
 		}
+		
 		return credits * return_value;
 	}
 }
