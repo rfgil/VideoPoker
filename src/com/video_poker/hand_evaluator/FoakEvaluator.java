@@ -6,7 +6,7 @@ import java.util.List;
 import com.card_game.CardRank;
 import com.video_poker.CardPos;
 
-public class FOAK implements HandEvaluator{
+public class FoakEvaluator implements HandEvaluator{
 
 	private List<CardPos> hold_list;
 	

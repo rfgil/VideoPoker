@@ -7,109 +7,125 @@ import com.card_game.CardRank;
 import com.video_poker.CardPos;
 import com.video_poker.Game;
 
-public class Straight implements HandEvaluator {
+public class Straight {
 	
-	private List<CardPos> hold_list;
-	int n_gaps;
-	int n_contiguous;
+	//private List<Integer> gaps_list;
+	private List<CardPos> list;
 	
-	int n_high_cards;
+	//private StraightRank rank;
 	
-	int[] gaps;
-	List<CardPos> cards;
+	private int high_card_count;
+	private int gap_count;
 	
-	public Straight(){
-		hold_list = new ArrayList<CardPos>();
+	public Straight(List<CardPos> list, int[] gap_list, int start, int end) throws InvalidStraightException {	
+		if (end - start < 2){ // Garante que a sequência tem pelo menos 3 elementos
+			throw new InvalidStraightException();
+		}
 		
-		gaps = new int[Game.HAND_SIZE + 1]; // O mesmo às pode ser introduzido duas vezes (como carta baixa e alta)
-		cards = new ArrayList<CardPos>(Game.HAND_SIZE +1 );
+		this.list = new ArrayList<CardPos>(end - start + 1);
+			
+		high_card_count = 0;
+		gap_count = 0;
 		
-		n_gaps = 0;
-		n_contiguous = 0;
-		n_high_cards = 0;
-	}
-	
-	@Override
-	public void addCard(CardPos card_pos) {
-		int size = hold_list.size();
+		
+		for(int i=start; i < end; i++){
+			switch(gap_list[i]){
+				case 0:	
+					continue; // "Remove" (não insere) 1º carta duplicada (com o mesmo rank)
+				case 2:
+					gap_count ++; 
+					// Não existe break intencionalmente para que seja adicionado à lista na mesma com gap_count == 2
+				case 1:
+					this.list.add(list.get(i));
+					break;
 					
-		if (size != 0){
-			// Preenche posição anterior
-			gaps[size-1] = card_pos.card.getRank().ordinal() - hold_list.get(size-1).card.getRank().ordinal();
+				default:
+					throw new InvalidStraightException();
+			}
 		}
 		
-		hold_list.add(card_pos);
+		this.list.add(list.get(end));
+		
+		/*
+		 * gap_count corresponde ao numero de gaps na própria sequência (ou parte dela)
+		 * isto significa que gap_count = 0 => outside straight porque não existem gaps (espaços) entre as cartas desta sequencia
+		 * no enunciado gaps corresponde às cartas em falta para completar a sequencia, que neste caso será dado por
+		 * HAND_SIZE - tamanho da sequencia em causa + gap_count
+		 */
 	}
 	
-	private void checkStraight(){
-		int last_pos = hold_list.size() - 1;
-
-		// Se a primeira carta for um às, ele pode ser considerado carta mais alta
-		if (hold_list.get(0).card.getRank() == CardRank.A){
-			// Transforma ÁS na carta mais alta e calcula diferença para com a ultima carta introduzida
-			gaps[last_pos] = CardRank.A.ordinal() + CardRank.values().length - hold_list.get(last_pos).card.getRank().ordinal();
-
-			// Introduz às como ultima carta
-			hold_list.add(hold_list.get(0));
-			gaps[hold_list.size() - 1] =  CardRank.values().length;
+	public int getHighCardCount(){
+		return high_card_count;
+	}
+	
+	public int getGapCount(){
+		return gap_count;
+	}
+	
+	public StraightRank getStraightRank(){		
+		switch(this.list.size()){
+			case 5:
+				return StraightRank.Straight;
+			case 4:
+				return StraightRank._4_to_straight;
+			case 3:
+				return StraightRank._3_to_straight;
+			default:
+				// não é possivel porque esta condição é garantida no construtor
+				return null;
+		}
+	}
+	
+	public int getType(){
+		int totalGaps = gap_count + Game.HAND_SIZE - this.list.size();
+		
+		if (high_card_count >= totalGaps &&
+		    list.get(0).card.getRank() != CardRank.A){
+			// Numero de cartas altas é superior ao numero gaps (na a sequência completa: totalGaps)  
+			// E a sequência não tem um Low ace
+			return 1;
+			
+		} else if (totalGaps == 1 || (totalGaps == 2 && high_card_count == 1) ) {
+			return 2;
+		
+		} else if (this.list.size() == 3 &&
+				   this.list.get(0).card.getRank() == CardRank._2 &&
+				   this.list.get(1).card.getRank() == CardRank._3 &&
+				   this.list.get(2).card.getRank() == CardRank._4){
+			return 2;
+			
+		} else { //(totalGaps == 2 && high_card_count == 0){
+			return 3;
+		}
+	}
+	
+	public boolean isRoyal(){
+		return false;
+	}
+	
+	public List<CardPos> getList(){
+		return list;
+	}
+	
+	/**
+	 * Compares this straight with the specified straight object for order. Returns a negative integer, zero, or a positive integer as this straight is worse than, equal to, or better than the specified straight. 
+	 * @param item Straight to compare with.
+	 * @return
+	 */
+	public static int compare(Straight item1, Straight item2) {
+		if (item1 == null && item2 == null){
+			return 0;
+		} else if(item1 == null){
+			return 1;
+		} else if(item2 == null){
+			return -1;
+		}
+			
+		int diff = item1.getStraightRank().compareTo(item2.getStraightRank());
+		if (diff == 0){
+			return item2.getType() - item1.getType();
 		} else {
-			gaps[last_pos] = CardRank.values().length;
-		}
-		
-		
-		CardPos top_card;
-		
-		for (int i=last_pos; i>=0; i--){
-			if (gaps[i] > 2){
-				top_card = hold_list.get(i);
-			}
-			
-			
-			
-		}
-		
-		
-		for(int i = hold_list.size() -1; i>=0; i--){
-			
+			return diff;
 		}
 	}
-	
-	private void adjustHoldList(){
-		while(hold_list.get(0).card.getRank() == CardRank.A && n_high_cards > 2){
-			int last_pos =  hold_list.size() - 1; 
-			// Transforma o ÁS na carta de valor mais alta e faz as verificações para 
-			int diff = CardRank.A.ordinal() + CardRank.values().length + hold_list.get(last_pos).card.getRank().ordinal();
-			
-			if (diff == 1){
-				n_contiguous ++;
-				break;
-			} else if (diff == 2){
-				n_gaps  ++;
-				break;
-			} else {
-				// Remove o ÁS da lista uma vez que não faz parte da sequência
-				hold_list.remove(0);
-			}
-		}
-	}
-
-	@Override
-	public AdviceRank getAdviceRank() {
-		
-		return null;
-	}
-
-	@Override
-	public List<CardPos> getAdviceHoldVector() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public HandRank getHandRank() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 }

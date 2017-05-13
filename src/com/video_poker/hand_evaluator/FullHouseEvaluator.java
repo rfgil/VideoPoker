@@ -5,12 +5,12 @@ import java.util.List;
 
 import com.video_poker.CardPos;
 
-public class FullHouse implements HandEvaluator{
+public class FullHouseEvaluator implements HandEvaluator{
 	
 	private HandEvaluator pair;
 	private HandEvaluator toak;
 	
-	public FullHouse(HandEvaluator pair, HandEvaluator toak){
+	public FullHouseEvaluator(HandEvaluator pair, HandEvaluator toak){
 		this.pair = pair;
 		this.toak = toak;
 	}

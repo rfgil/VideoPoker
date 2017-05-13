@@ -4,18 +4,18 @@ import com.video_poker.VideoPoker;
 import com.video_poker.exceptions.InvalidBetAmmountException;
 
 public enum HandRank {
-	 RoyalFLush(250),
-	 StraightFlush(50),
-	 FourAces(160),
-	 Four2_4(80),
-	 Four5_K(50),
-	 FullHouse(10),
-	 Flush(7),
-	 Straight(5),
-	 TOAK(3),
-	 TwoPair(1),
+	 Nothing(0),
 	 JacksOrBetter(1),
-	 Nothing(0);
+	 TwoPair(1),
+	 TOAK(3),
+	 Straight(5),
+	 Flush(7),
+	 FullHouse(10),
+	 Four5_K(50),
+	 Four2_4(80),
+	 FourAces(160),
+	 StraightFlush(50),
+	 RoyalFLush(250);
 	
 	private int return_value;
 	HandRank(int return_value){

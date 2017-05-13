@@ -11,11 +11,11 @@ import java.util.ArrayList;
 
 
 
-public class Flush implements HandEvaluator {
+public class FlushEvaluator implements HandEvaluator {
 	private List< List<CardPos> > suits;
 	private List<CardPos> advice_hold_list;	
 	
-	public Flush(){
+	public FlushEvaluator(){
 		suits = new ArrayList<List<CardPos>>(CardSuit.values().length);
 		
 		for (int i=0; i<CardSuit.values().length; i++){

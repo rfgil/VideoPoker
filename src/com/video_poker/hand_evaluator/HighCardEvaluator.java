@@ -6,12 +6,12 @@ import java.util.List;
 import com.card_game.CardRank;
 import com.video_poker.CardPos;
 
-public class HighCard implements HandEvaluator{
+public class HighCardEvaluator implements HandEvaluator{
 	
 	CardPos[] rank_histogram;
 	private List<CardPos> hold_list;	
 	
-	public HighCard() {
+	public HighCardEvaluator() {
 		rank_histogram = new CardPos[CardRank.values().length]; // Inicializado a null
 		hold_list = null;
 	}

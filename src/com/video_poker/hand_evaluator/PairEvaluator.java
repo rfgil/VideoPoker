@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.video_poker.CardPos;
 
-public class Pair implements HandEvaluator {
+public class PairEvaluator implements HandEvaluator {
 
 	private List<CardPos> advice_hold_list;
 	
-	public Pair(){
+	public PairEvaluator(){
 		advice_hold_list = new ArrayList<CardPos>();
 	}
 

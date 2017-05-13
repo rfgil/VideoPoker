@@ -5,8 +5,8 @@ import java.util.List;
 import com.card_game.Card;
 import com.card_game.Deck;
 import com.video_poker.hand_evaluator.AdviceRank;
-import com.video_poker.hand_evaluator.FOAK;
-import com.video_poker.hand_evaluator.Flush;
+import com.video_poker.hand_evaluator.FoakEvaluator;
+import com.video_poker.hand_evaluator.FlushEvaluator;
 import com.video_poker.hand_evaluator.HandEvaluator;
 import com.video_poker.hand_evaluator.HandRank;
 
@@ -26,8 +26,8 @@ public class Hand {
 		//HandEvaluator[] evaluators = new HandEvaluator[7];
 		this.evaluators = new HandEvaluator[2];
 		
-		evaluators[0] = new FOAK();
-		evaluators[1] = new Flush();
+		evaluators[0] = new FoakEvaluator();
+		evaluators[1] = new FlushEvaluator();
 		
 		//evaluators[0] = new Straight();
 		//evaluators[1] = new FOAK();
