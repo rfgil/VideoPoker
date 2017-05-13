@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.card_game.Deck;
 import com.card_game.NotEnoughBalanceException;
+import com.video_poker.exceptions.BetNotSetException;
+import com.video_poker.exceptions.IllegalCommandException;
+import com.video_poker.exceptions.InvalidBetAmmountException;
 
 public abstract class VideoPoker {
 	

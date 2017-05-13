@@ -2,6 +2,7 @@ package com.video_poker;
 
 import com.card_game.NotEnoughBalanceException;
 import com.card_game.Player;
+import com.video_poker.exceptions.InvalidBetAmmountException;
 import com.video_poker.hand_evaluator.HandRank;
 
 public class VideoPokerPlayer extends Player{

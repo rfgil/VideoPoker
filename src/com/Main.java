@@ -26,7 +26,7 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//Deck mydeck = new Deck();
-		
+
 		VideoPokerPlayer player = new VideoPokerPlayer();
 		
 		try {

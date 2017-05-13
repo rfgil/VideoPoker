@@ -23,7 +23,6 @@ public class Deck {
 			}
 		}
 		
-		//current_card = 0;
 		shuffle();
 	}
 	

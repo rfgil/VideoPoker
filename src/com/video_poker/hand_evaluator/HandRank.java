@@ -1,7 +1,7 @@
 package com.video_poker.hand_evaluator;
 
-import com.video_poker.InvalidBetAmmountException;
 import com.video_poker.VideoPoker;
+import com.video_poker.exceptions.InvalidBetAmmountException;
 
 public enum HandRank {
 	 RoyalFLush(250),

@@ -1,4 +1,4 @@
-package com.video_poker;
+package com.video_poker.exceptions;
 
 public class BetNotSetException extends Exception {
 

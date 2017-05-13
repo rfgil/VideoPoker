@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.card_game.NotEnoughBalanceException;
+import com.video_poker.exceptions.BetNotSetException;
+import com.video_poker.exceptions.IllegalCommandException;
+import com.video_poker.exceptions.InvalidBetAmmountException;
 import com.video_poker.hand_evaluator.HandRank;
 
 public class InteractiveVideoPoker extends VideoPoker {

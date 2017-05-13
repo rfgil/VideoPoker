@@ -1,5 +1,6 @@
 package com.video_poker;
 
+import com.video_poker.exceptions.InvalidBetAmmountException;
 import com.video_poker.hand_evaluator.HandRank;
 
 public class Statistic {
