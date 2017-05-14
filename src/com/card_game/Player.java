@@ -3,8 +3,10 @@ package com.card_game;
 public class Player {
 	
 	private int balance;
+	private int initialBalance;
 	
-	public Player() {
+	public Player(int initialBalance) {
+		this.initialBalance = initialBalance;
 	}
 	
 	public void credit(int value) throws NotEnoughBalanceException{
@@ -32,5 +34,9 @@ public class Player {
 	
 	public int getBalance(){
 		return balance;
-	}	
+	}
+	
+	public int getInitialBalance(){
+		return initialBalance;
+	}
 }

@@ -15,7 +15,7 @@ public enum HandRank {
 	 Four2_4(80),
 	 FourAces(160),
 	 StraightFlush(50),
-	 RoyalFLush(250);
+	 RoyalFlush(250);
 	
 	private int return_value;
 	HandRank(int return_value){
@@ -27,7 +27,7 @@ public enum HandRank {
 			throw new InvalidBetAmmountException();
 		} 
 		
-		if (this.equals(RoyalFLush) && credits == VideoPoker.MAX_BET){ // Caso especial para o Royal Flush e aposta máxima
+		if (this.equals(RoyalFlush) && credits == VideoPoker.MAX_BET){ // Caso especial para o Royal Flush e aposta máxima
 			//factor = 4000 / (250 * 5 credits) = 3.2
 			return (int) (credits * return_value * 3.2);
 		}

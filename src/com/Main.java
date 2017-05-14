@@ -1,5 +1,8 @@
 package com;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +21,30 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//Deck mydeck = new Deck();
-			
 		
-		VideoPokerPlayer player = new VideoPokerPlayer();
+		FileInputStream cmd;
+		FileInputStream card;
 		
 		try {
-			player.credit(500);
-		} catch (NotEnoughBalanceException e) {
+			cmd = new FileInputStream("/home/rafael/cmd");
+		} catch (FileNotFoundException e2) {
+			System.out.println("cmd input file was not found");
 		}
+		
+		try {
+			card = new FileInputStream("/home/rafael/card");
+		} catch (FileNotFoundException e2) {
+			System.out.println("card input file was not found");
+		}
+		
+		s
+		
+		
+		VideoPokerPlayer player = new VideoPokerPlayer(500);
+		
+		try {
+			player.credit(50);
+		} catch (NotEnoughBalanceException e) {}
 		
 		InteractiveVideoPoker cena = new InteractiveVideoPoker(player, new Scanner(new InputStreamReader(System.in)));
 		

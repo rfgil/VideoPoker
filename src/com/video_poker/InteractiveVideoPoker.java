@@ -22,13 +22,14 @@ public class InteractiveVideoPoker extends VideoPoker {
 	@Override
 	public void handAfterDeal(Hand hand) {
 		// TODO Auto-generated method stub
-		System.out.println(hand);
+		System.out.println("player's hand " + hand);
 	}
 
 	@Override
 	public void handAfterHold(Hand hand) {
 		// TODO Auto-generated method stub
-		System.out.println(hand);
+		System.out.println("player's hand " + hand);
+		
 		if (hand.getHandRank() == HandRank.Nothing){
 			System.out.println("player loses and his credit is " + this.player.getBalance());
 		} else {
@@ -37,7 +38,24 @@ public class InteractiveVideoPoker extends VideoPoker {
 	}
 	
 	private void printAdvice(List<CardPos> list){
+		String str;
 		
+		switch(list.size()){
+			case 0:
+				str = "player should discard all cards";
+				break;
+			case 1:
+				str = "player should hold card " + (list.get(0).pos + 1);
+				break;
+			default:
+				str = "player should hold cards " + (list.get(0).pos + 1);
+				
+				for (int i=1; i<list.size(); i++){
+					str += " " + (list.get(i).pos + 1); 
+				}
+		}
+		
+		System.out.println(str);
 	}
 
 	@Override
@@ -52,7 +70,6 @@ public class InteractiveVideoPoker extends VideoPoker {
 			Scanner str_scan = new Scanner(str);
 			char command = str_scan.next().charAt(0);
 			
-			
 			switch(command){
 				case 'b': // bet
 					if (str_scan.hasNextInt()){
@@ -61,29 +78,38 @@ public class InteractiveVideoPoker extends VideoPoker {
 					
 					try {
 						this.bet(previous_bet);
+						System.out.println("player is betting " + previous_bet);
 						
 					} catch (IllegalCommandException e1) {
 						System.out.println("b: illegal command");
 						
 					} catch (InvalidBetAmmountException e){
-						System.out.println("b: invalid bet");
+						System.out.println("b: illegal amount");
 						previous_bet = 5;
-						
+
 					} catch (NotEnoughBalanceException e){
-							
+						System.out.println("player has not enough balance to bet " + previous_bet);
+						System.out.println("player's credit is " + this.player.getBalance());
+
 					}
 					break;
 					
 				case '$': // credit
-					int value = str_scan.nextInt();
+					int value;
+					if (str_scan.hasNextInt()){
+						value = str_scan.nextInt();
+						if (value < 0){
+							value = 0;
+						}
+					} else {
+						value = this.player.getInitialBalance() - this.player.getBalance();
+					}
 					
 					try {
 						this.credit(value);
-					} catch (NotEnoughBalanceException e) {
-	
-					}
+					} catch (NotEnoughBalanceException e) {}
 					
-					System.out.println(this.player.getBalance());
+					System.out.println("player's credit is " + this.player.getBalance());
 					break;
 					
 				case 'd': // deal
@@ -116,11 +142,19 @@ public class InteractiveVideoPoker extends VideoPoker {
 					break;
 					
 				case 'a': // advice
+					try {
+						printAdvice(this.advice());
+					} catch (IllegalCommandException e) {
+						System.out.println("a: illegal command");
+					}
 					break;
+					
 				case 's': // statistics
+					this.player.printStatistics();
 					break;
+					
 				default:
-					System.out.println("comando inválido");
+					System.out.println(command + ": invalid command");
 					break;
 			}
 			

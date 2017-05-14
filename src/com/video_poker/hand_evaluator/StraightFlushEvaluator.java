@@ -91,7 +91,7 @@ public class StraightFlushEvaluator implements HandEvaluator {
 		}
 		
 		if (evaluator.getStraight().size() == Game.HAND_SIZE){
-			return evaluator.getStraight().isRoyal() ? HandRank.RoyalFLush : HandRank.StraightFlush;
+			return evaluator.getStraight().isRoyal() ? HandRank.RoyalFlush : HandRank.StraightFlush;
 		}
 		
 		return HandRank.Nothing;

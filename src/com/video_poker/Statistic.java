@@ -20,6 +20,7 @@ public class Statistic {
 	}
 	
 	public void update(int credits) throws InvalidBetAmmountException{
+		this.occurrences ++;
 		this.invested_credits += credits;
 		this.gained_credits += hand_rank.getPayout(credits);
 	}
