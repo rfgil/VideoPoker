@@ -110,7 +110,7 @@ public abstract class VideoPoker {
 		isBetSet  = false;
 	}
 	
-	public List<CardPos> advice() throws IllegalCommandException {
+	public List<Integer> advice() throws IllegalCommandException {
 		if (game == null){ // só é possivel obter um advice quando está um jogo a decorrer
 			throw new IllegalCommandException();
 		}

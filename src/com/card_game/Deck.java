@@ -13,6 +13,7 @@ import com.card_game.exceptions.InvalidCardStringException;
 public class Deck {
 
 	private List<Card> deck;
+	private int current_card;
 	private boolean isGenerated;
 
 	public Deck() {
@@ -30,6 +31,7 @@ public class Deck {
 	
 	public Deck(InputStream card_file) throws InvalidCardStringException {	
 		isGenerated = false;
+		current_card = 0;
 		deck = new ArrayList<Card>();
 		
 		Scanner scanner = new Scanner(card_file);
@@ -42,9 +44,10 @@ public class Deck {
 	}
 	
 	public Card draw() throws EmptyDeckException{		
-		try {
-			return deck.remove(0);
-		} catch (IndexOutOfBoundsException e){
+		if (current_card < deck.size()){
+			current_card ++;
+			return deck.get(current_card - 1);
+		} else {
 			throw new EmptyDeckException();
 		}
 	}
@@ -63,6 +66,8 @@ public class Deck {
 				deck.set(i, deck.get(rnd));
 				deck.set(rnd, aux);
 			}
+			
+			current_card = 0;
 		}
 	}
 

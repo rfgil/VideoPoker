@@ -11,6 +11,7 @@ import java.util.Scanner;
 import com.video_poker.*;
 import com.video_poker.hand_evaluator.*;
 import com.card_game.*;
+import com.card_game.exceptions.InvalidCardStringException;
 import com.card_game.exceptions.NotEnoughBalanceException;
 
 public class Main {
@@ -25,8 +26,8 @@ public class Main {
 		
 	
 		
-		FileInputStream cmd;
-		FileInputStream card;
+		FileInputStream cmd = null;
+		FileInputStream card = null;
 		
 		try {
 			cmd = new FileInputStream("/home/rafael/cmd");
@@ -41,14 +42,25 @@ public class Main {
 		}
 		
 		
-		VideoPokerPlayer player = new VideoPokerPlayer(500);
+		VideoPokerPlayer player = new VideoPokerPlayer(500000);
 		
 		try {
 			player.credit(50);
 		} catch (NotEnoughBalanceException e) {}
 		
-		InteractiveVideoPoker cena = new InteractiveVideoPoker(player);
+		System.out.println(player.getBalance());
+		//VideoPoker cena = new InteractiveVideoPoker(player);
 		
+		VideoPoker cena = new SimulationVideoPoker(player, 1000000, 5);
+		
+		/*
+		VideoPoker cena = null;
+		try {
+			cena = new DebugVideoPoker(player, cmd, card);
+		} catch (InvalidCardStringException e) {
+			e.printStackTrace();
+		}
+		*/
 		cena.play();
 			
 		

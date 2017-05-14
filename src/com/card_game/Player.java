@@ -9,6 +9,7 @@ public class Player {
 	
 	public Player(int initialBalance) {
 		this.initialBalance = initialBalance;
+		this.balance = initialBalance;
 	}
 	
 	public void credit(int value) throws NotEnoughBalanceException{

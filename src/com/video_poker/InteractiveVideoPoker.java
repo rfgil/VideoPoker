@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 public class InteractiveVideoPoker extends CommandLineVideoPoker {
 	
-	
 	public InteractiveVideoPoker(VideoPokerPlayer player) {
 		super(player);
 	}

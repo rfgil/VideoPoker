@@ -7,7 +7,8 @@ import com.card_game.Deck;
 import com.card_game.exceptions.EmptyDeckException;
 import com.video_poker.hand_evaluator.*;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
+import java.util.Collections; 
 
 public class Hand {
 	
@@ -47,7 +48,7 @@ public class Hand {
 		}
 	}
 	
-	protected List<CardPos> getAdvice(){
+	protected List<Integer> getAdvice(){
 		renewEvaluators();
 		cards.sort(new CardPosComparator());
 		
@@ -68,8 +69,11 @@ public class Hand {
 			}
 		}
 		
-		List<CardPos> hold_vector = selected_evaluator.getAdviceHoldVector();
-		hold_vector.sort(new CardPosComparator(true));
+		List<Integer> hold_vector = new ArrayList<Integer>(Game.HAND_SIZE);
+		for(CardPos card_pos : selected_evaluator.getAdviceHoldVector()){
+			hold_vector.add(card_pos.pos);
+		}
+		Collections.sort(hold_vector);
 		return hold_vector;
 	}
 	
