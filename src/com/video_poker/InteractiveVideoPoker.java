@@ -35,6 +35,10 @@ public class InteractiveVideoPoker extends VideoPoker {
 			System.out.println("player wins with " + hand.getHandRank() + " and his credit is " + this.player.getBalance());
 		}
 	}
+	
+	private void printAdvice(List<CardPos> list){
+		
+	}
 
 	@Override
 	public void play() {
@@ -57,6 +61,7 @@ public class InteractiveVideoPoker extends VideoPoker {
 					
 					try {
 						this.bet(previous_bet);
+						
 					} catch (IllegalCommandException e1) {
 						System.out.println("b: illegal command");
 						
@@ -65,7 +70,7 @@ public class InteractiveVideoPoker extends VideoPoker {
 						previous_bet = 5;
 						
 					} catch (NotEnoughBalanceException e){
-						
+							
 					}
 					break;
 					

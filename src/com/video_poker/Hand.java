@@ -96,6 +96,13 @@ public class Hand {
 	@Override
 	public String toString() {
 		cards.sort(new CardPosComparator(true));
-		return "Hand [cards=" + cards + "]";
+		
+		String str = "";
+		str += cards.get(0).toString();
+		for (int i=1; i<cards.size(); i++){
+			str += " " + cards.get(i);
+		}
+		
+		return str;
 	}
 }

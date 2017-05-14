@@ -15,6 +15,16 @@ public enum CardRank {
     Q,
     K;
 	
+	@Override
+    public String toString() {
+		String str = super.toString();
+		if (str.length() == 2){
+			return str.charAt(1) + "";
+		}
+		return str;
+	}
+	
+		
 	public static int difference(CardRank rank1, CardRank rank2, boolean isRank1HighAce){
 		if (isRank1HighAce){		
 			if (difference(rank1, rank2) == 0){ // Se forem ambos um Ás a diferença continua a ser 0
