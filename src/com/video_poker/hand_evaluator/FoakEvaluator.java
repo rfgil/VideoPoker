@@ -10,6 +10,10 @@ public class FoakEvaluator implements HandEvaluator{
 
 	private List<CardPos> hold_list;
 	
+	public FoakEvaluator(){
+		hold_list = new ArrayList<CardPos>(4);	
+	}
+	
 	@Override
 	public void addCard(CardPos card_pos) {
 		int size = hold_list.size();

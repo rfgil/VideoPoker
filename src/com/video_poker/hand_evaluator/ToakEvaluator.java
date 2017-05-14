@@ -10,6 +10,10 @@ public class ToakEvaluator implements HandEvaluator {
 
 	private List<CardPos> hold_list;
 	
+	public ToakEvaluator(){
+		hold_list = new ArrayList<CardPos>(3);	
+	}
+	
 	@Override
 	public void addCard(CardPos card_pos) {
 		int size = hold_list.size();

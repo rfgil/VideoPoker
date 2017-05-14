@@ -8,156 +8,122 @@ import com.video_poker.CardPos;
 import com.video_poker.Game;
 
 public class StraightEvaluator implements HandEvaluator {
+		
+	private List<StraightArrayList> straights;
+	private StraightArrayList best_straight;
+	private CardPos ace;
 	
-	private List<CardPos> cards;
-	private Straight straight;
-	private int[] gaps;
+	public StraightEvaluator(){	
+		straights = new ArrayList<StraightArrayList>();
+		straights.add(new StraightArrayList());
+		
+		best_straight = null;
+		ace = null;
+	}
 	
-	private boolean isStraightSet;
-	
-	public StraightEvaluator(){
-		gaps = new int[Game.HAND_SIZE + 1]; // O mesmo às pode ser introduzido duas vezes (como carta baixa e alta)
-		cards = new ArrayList<CardPos>(Game.HAND_SIZE + 1);
-		isStraightSet = false;
+	private void insertCard(CardPos card_pos){
+		for (StraightArrayList list : straights){
+			list.add(card_pos);
+			
+			//if (!list.isPossibleStraight()){
+			//	straights.remove(list);
+			//}
+		}
+		
+		if (straights.get(straights.size() -1).isFull()){
+			// Cria nova possivel straight e adiciona a carta recebida (se existir pelo menos um gap na ultima lista disponivel)
+			straights.add(new StraightArrayList());
+			straights.get(straights.size() -1).add(card_pos);
+		}
 	}
 	
 	@Override
 	public void addCard(CardPos card_pos) {
-		int size = cards.size();
-					
-		if (size != 0){
-			// Preenche posição anterior
-			gaps[size-1] = card_pos.card.getRank().ordinal() - cards.get(size-1).card.getRank().ordinal();
+		insertCard(card_pos);
+		
+		if (card_pos.card.getRank() == CardRank.A){
+			ace = card_pos; // Evita que existam 2 ases
 		}
 		
-		cards.add(card_pos);
-		isStraightSet = false;
+		best_straight = null;
 	}
-	
+		
 	private void setBestStraight(){
-		int last_pos = cards.size() - 1;
-
-		
-		try {
-			
-		
-		// Se a primeira carta for um às, ele pode ser considerado carta mais alta
-		if (cards.get(0).card.getRank() == CardRank.A){
-			// Transforma ÁS na carta mais alta e calcula diferença para com a ultima carta introduzida
-			gaps[last_pos] = CardRank.A.ordinal() + CardRank.values().length - cards.get(last_pos).card.getRank().ordinal();
-
-			// Introduz às como ultima carta
-			cards.add(cards.get(0));
-			gaps[cards.size() - 1] =  CardRank.values().length;
-		} else {
-			gaps[last_pos] = CardRank.values().length;
-		}
-		} catch (IndexOutOfBoundsException e){
-			this.straight = null;
-			isStraightSet = true;
-			return;
+		if (ace != null){
+			insertCard(ace);
 		}
 		
-		
-		List<Straight> straight_list = new ArrayList<Straight>(); 
-		last_pos = 0;
-		
-		for (int i=0; i<cards.size(); i++){
-			if (gaps[i] > 2){ // Procura um gap superior a 2, ou seja uma carta que quebre a possibilidade de sequência
-				try {
-					Straight straight = new Straight(cards, gaps, last_pos, i);
-					straight_list.add(straight);
-					last_pos = i + 1;
-				} catch (InvalidStraightException e){}
+		best_straight = straights.get(0);
+		for(StraightArrayList list : straights){
+	
+			if (StraightArrayList.compare(list, best_straight) > 0){
+				best_straight = list;
 			}
 		}
-		
-		try {
-			this.straight = straight_list.get(0);
-			
-			for(Straight list_straight : straight_list){
-				if (Straight.compare(list_straight, this.straight) > 0){
-					this.straight = list_straight;
-				}
-			}
-		} catch (IndexOutOfBoundsException e){
-			this.straight = null;
-		}
-		
-		isStraightSet = true;
 	}
 	
-
 	@Override
 	public AdviceRank getAdviceRank() {
-		if (!isStraightSet){
+		if (best_straight == null){
 			setBestStraight();
 		}
 		
-		if (straight == null){
-			return AdviceRank.DiscardEverything;
-			
-		} else if (straight.getStraightRank() == StraightRank.Straight){
+		switch (best_straight.size()){
+		case 5:
 			return AdviceRank.Straight;
-			
-		} else if(straight.getStraightRank() == StraightRank._4_to_straight){
-			if (straight.getGapCount() == 0){
+		case 4:
+			if (best_straight.getGapCount() == 0){
 				return AdviceRank._4_to_OutsideStraight;
 				
-			} else if (straight.getHighCardCount() == 3){
+			} else if (best_straight.getHighCardCount() == 3){ // Não é possivel ter mais que 3 high cards e inside straight
 				return AdviceRank._4_to_InsideStraight_with_3_HighCards;
 				
-			} else if (straight.getHighCardCount() == 2){
+			} else if (best_straight.getHighCardCount() == 2){
 				return AdviceRank._4_to_InsideStraight_with_2_HighCards;
 				
-			} else if (straight.getHighCardCount() == 1){
+			} else if (best_straight.getHighCardCount() == 1){
 				return AdviceRank._4_to_InsideStraight_with_1_HighCard;
 			
-			} else if (straight.getHighCardCount() == 0){
+			} else { //if (best_straight.getHighCardCount() == 0){
 				return AdviceRank._4_to_InsideStraight_with_0_HighCards;
 			}
+			
+		default:
+			return AdviceRank.DiscardEverything;
 		}
-		
-		return AdviceRank.DiscardEverything;
 	}
 
 	@Override
 	public List<CardPos> getAdviceHoldVector() {
-		if (!isStraightSet){
+		if (best_straight == null){
 			setBestStraight();
 		}
 		
-		if (straight == null){
+		if (best_straight.size() < 4){ // Só há advices para 4_to_SomeStraight
 			return new ArrayList<CardPos>();
-			
-		} else if(straight.getStraightRank() == StraightRank.Straight  ||
-			      straight.getStraightRank() == StraightRank._4_to_straight){
-			return straight.getList();
 		}
 		
-		return new ArrayList<CardPos>();
+		return best_straight;
 	}
 
 	@Override
 	public HandRank getHandRank() {
-		if (!isStraightSet){
+		if (best_straight == null){
 			setBestStraight();
 		}
 		
-		if (straight != null && straight.getStraightRank() == StraightRank.Straight){
+		if (best_straight.size() == Game.HAND_SIZE){
 			return HandRank.Straight;
 		}
 		
 		return HandRank.Nothing;
 	}
 	
-	protected Straight getStraight(){
-		if (!isStraightSet){
+	protected StraightArrayList getStraight(){
+		if (best_straight == null){
 			setBestStraight();
 		}
 		
-		return this.straight;
+		return best_straight;
 	}
-	
-	
 }

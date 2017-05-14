@@ -61,6 +61,7 @@ public class InteractiveVideoPoker extends VideoPoker {
 						System.out.println("b: illegal command");
 						
 					} catch (InvalidBetAmmountException e){
+						System.out.println("b: invalid bet");
 						previous_bet = 5;
 						
 					} catch (NotEnoughBalanceException e){

@@ -4,11 +4,7 @@ import java.util.List;
 
 import com.card_game.Card;
 import com.card_game.Deck;
-import com.video_poker.hand_evaluator.AdviceRank;
-import com.video_poker.hand_evaluator.FoakEvaluator;
-import com.video_poker.hand_evaluator.FlushEvaluator;
-import com.video_poker.hand_evaluator.HandEvaluator;
-import com.video_poker.hand_evaluator.HandRank;
+import com.video_poker.hand_evaluator.*;
 
 import java.util.ArrayList; 
 
@@ -23,19 +19,18 @@ public class Hand {
 	}
 	
 	private void renewEvaluators(){
-		//HandEvaluator[] evaluators = new HandEvaluator[7];
-		this.evaluators = new HandEvaluator[2];
+		this.evaluators = new HandEvaluator[8];
 		
-		evaluators[0] = new FoakEvaluator();
-		evaluators[1] = new FlushEvaluator();
+		evaluators[0] = new FlushEvaluator();
+		evaluators[1] = new FoakEvaluator();
 		
-		//evaluators[0] = new Straight();
-		//evaluators[1] = new FOAK();
-		//evaluators[2] = new FullHouse();
-		//evaluators[3] = new Flush();
-		//evaluators[4] = new TOAK();
-		//evaluators[5] = new Pair();
-		//evaluators[6] = new HighCard();
+		evaluators[2] = new PairEvaluator();
+		evaluators[3] = new ToakEvaluator();
+		evaluators[4] = new FullHouseEvaluator(evaluators[2], evaluators[3]);
+		
+		evaluators[5] = new HighCardEvaluator();
+		evaluators[6] = new StraightEvaluator();
+		evaluators[7] = new StraightFlushEvaluator();
 	}
 	
 	protected void addCard(int pos, Card card){
@@ -90,7 +85,7 @@ public class Hand {
 		
 		// Obtem o avaliador com melhor sugestão
 		for(HandEvaluator evaluator: evaluators){
-			if (evaluator.getHandRank().compareTo(best_rank) < 0){
+			if (evaluator.getHandRank().compareTo(best_rank) > 0){
 				best_rank = evaluator.getHandRank();
 			}
 		}

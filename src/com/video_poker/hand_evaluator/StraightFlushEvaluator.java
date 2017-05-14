@@ -1,9 +1,11 @@
 package com.video_poker.hand_evaluator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.card_game.CardSuit;
 import com.video_poker.CardPos;
+import com.video_poker.Game;
 
 public class StraightFlushEvaluator implements HandEvaluator {
 	private StraightEvaluator[] suits;
@@ -27,7 +29,7 @@ public class StraightFlushEvaluator implements HandEvaluator {
 	private void setEvaluator(){
 		evaluator = suits[0];
 		for (StraightEvaluator eval : suits){
-			if (Straight.compare(eval.getStraight(), evaluator.getStraight()) > 0){
+			if (StraightArrayList.compare(eval.getStraight(), evaluator.getStraight()) > 0){
 				evaluator = eval;
 			}
 		}
@@ -39,38 +41,34 @@ public class StraightFlushEvaluator implements HandEvaluator {
 			setEvaluator();
 		}
 		
-		try {
-			if (evaluator.getStraight().getStraightRank() == StraightRank.Straight){
-				return AdviceRank.StraightFlush;
-			
-			} else if (evaluator.getStraight().getStraightRank() == StraightRank._4_to_straight){
-				if (evaluator.getStraight().isRoyal()){
-					return AdviceRank._4_to_RoyalFlush;
-				} else {
-					return AdviceRank._4_to_StraightFlush;
-				}
-				
-			} else if (evaluator.getStraight().getStraightRank() == StraightRank._3_to_straight){
-				if (evaluator.getStraight().isRoyal()){
-					return AdviceRank._3_to_RoyalFlush;
-				} else {
-					switch(evaluator.getStraight().getType()){
-						case 1:
-							return AdviceRank._3_to_StraightFlush_type1;
-						case 2:
-							return AdviceRank._3_to_StraightFlush_type2;
-						case 3:
-							return AdviceRank._3_to_StraightFlush_type3;
-						default:
-							// Não acontece nunca
-							return AdviceRank.DiscardEverything;
-					}
+		switch(evaluator.getStraight().size()){
+		case 5:
+			return AdviceRank.StraightFlush;
+		case 4:
+			if (evaluator.getStraight().isRoyal()){
+				return AdviceRank._4_to_RoyalFlush;
+			} else {
+				return AdviceRank._4_to_StraightFlush;
+			}
+		case 3:
+			if (evaluator.getStraight().isRoyal()){
+				return AdviceRank._3_to_RoyalFlush;
+			} else {
+				switch(evaluator.getStraight().getType()){
+					case 1:
+						return AdviceRank._3_to_StraightFlush_type1;
+					case 2:
+						return AdviceRank._3_to_StraightFlush_type2;
+					case 3:
+						return AdviceRank._3_to_StraightFlush_type3;
+					default:
+						// Não acontece nunca
+						return AdviceRank.DiscardEverything;
 				}
 			}
-		
-		}catch (NullPointerException e){}
-		
-		return AdviceRank.DiscardEverything;
+		default:
+			return AdviceRank.DiscardEverything;
+		}
 	}
 
 	@Override
@@ -79,7 +77,11 @@ public class StraightFlushEvaluator implements HandEvaluator {
 			setEvaluator();
 		}
 		
-		return evaluator.getAdviceHoldVector();
+		if (evaluator.getStraight().size() < 3){
+			return new ArrayList<CardPos>();
+		}
+		
+		return evaluator.getStraight();
 	}
 
 	@Override
@@ -88,11 +90,9 @@ public class StraightFlushEvaluator implements HandEvaluator {
 			setEvaluator();
 		}
 		
-		try {
-			if (evaluator.getStraight().getStraightRank() == StraightRank.Straight){
-				return evaluator.getStraight().isRoyal() ? HandRank.RoyalFLush : HandRank.StraightFlush;
-			}
-		} catch (NullPointerException e){}
+		if (evaluator.getStraight().size() == Game.HAND_SIZE){
+			return evaluator.getStraight().isRoyal() ? HandRank.RoyalFLush : HandRank.StraightFlush;
+		}
 		
 		return HandRank.Nothing;
 	}

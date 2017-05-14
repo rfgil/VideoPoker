@@ -20,7 +20,7 @@ public class Card {
 	public CardRank getRank(){
 		return rank;
 	}
-
+	
 	@Override
 	public String toString() {
 		return rank + "." + suit;
