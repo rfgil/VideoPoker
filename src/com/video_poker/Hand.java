@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.card_game.Card;
 import com.card_game.Deck;
+import com.card_game.exceptions.EmptyDeckException;
 import com.video_poker.hand_evaluator.*;
 
 import java.util.ArrayList; 
@@ -37,7 +38,7 @@ public class Hand {
 		cards.add(new CardPos(card, pos));
 	}
 	
-	protected void swapCards(boolean[] hold, Deck deck){
+	protected void swapCards(boolean[] hold, Deck deck) throws EmptyDeckException{
 		// Procura pela carta na posição pretendida
 		for(CardPos item: cards){
 			if(!hold[item.pos]){
@@ -67,7 +68,9 @@ public class Hand {
 			}
 		}
 		
-		return selected_evaluator.getAdviceHoldVector();
+		List<CardPos> hold_vector = selected_evaluator.getAdviceHoldVector();
+		hold_vector.sort(new CardPosComparator(true));
+		return hold_vector;
 	}
 	
 	protected HandRank getHandRank(){

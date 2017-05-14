@@ -1,5 +1,7 @@
 package com.card_game;
 
+import com.card_game.exceptions.NotEnoughBalanceException;
+
 public class Player {
 	
 	private int balance;

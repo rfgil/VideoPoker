@@ -11,6 +11,7 @@ import java.util.Scanner;
 import com.video_poker.*;
 import com.video_poker.hand_evaluator.*;
 import com.card_game.*;
+import com.card_game.exceptions.NotEnoughBalanceException;
 
 public class Main {
 
@@ -21,6 +22,8 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//Deck mydeck = new Deck();
+		
+	
 		
 		FileInputStream cmd;
 		FileInputStream card;
@@ -37,8 +40,6 @@ public class Main {
 			System.out.println("card input file was not found");
 		}
 		
-		s
-		
 		
 		VideoPokerPlayer player = new VideoPokerPlayer(500);
 		
@@ -46,7 +47,7 @@ public class Main {
 			player.credit(50);
 		} catch (NotEnoughBalanceException e) {}
 		
-		InteractiveVideoPoker cena = new InteractiveVideoPoker(player, new Scanner(new InputStreamReader(System.in)));
+		InteractiveVideoPoker cena = new InteractiveVideoPoker(player);
 		
 		cena.play();
 			

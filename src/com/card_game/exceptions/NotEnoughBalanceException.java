@@ -1,4 +1,4 @@
-package com.card_game;
+package com.card_game.exceptions;
 
 public class NotEnoughBalanceException extends Exception {
 

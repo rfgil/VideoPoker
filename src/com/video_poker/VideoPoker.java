@@ -1,9 +1,12 @@
 package com.video_poker;
 
+import java.io.InputStream;
 import java.util.List;
 
 import com.card_game.Deck;
-import com.card_game.NotEnoughBalanceException;
+import com.card_game.exceptions.EmptyDeckException;
+import com.card_game.exceptions.InvalidCardStringException;
+import com.card_game.exceptions.NotEnoughBalanceException;
 import com.video_poker.exceptions.BetNotSetException;
 import com.video_poker.exceptions.IllegalCommandException;
 import com.video_poker.exceptions.InvalidBetAmmountException;
@@ -22,12 +25,21 @@ public abstract class VideoPoker {
 	
 	public VideoPoker(VideoPokerPlayer player){
 		this.player = player;
-		this.deck = new Deck();
 		this.game = null;
 		this.isBetSet = false;
+		
+		this.deck = new Deck();
 	}
 	
-	public void deal() throws IllegalCommandException, BetNotSetException {
+	public VideoPoker(VideoPokerPlayer player, InputStream card_file) throws InvalidCardStringException{
+		this.player = player;
+		this.game = null;
+		this.isBetSet = false;
+		
+		this.deck = new Deck(card_file);
+	}
+		
+	public void deal() throws IllegalCommandException, BetNotSetException, EmptyDeckException {
 		if (game != null){
 			// Lançar exceção (deal so é permitido antes do inicio de um jogo)
 			throw new IllegalCommandException();
@@ -78,7 +90,7 @@ public abstract class VideoPoker {
 		this.player.credit(value);
 	}
 	
-	public void hold(List<Integer> hold_list) throws IllegalCommandException {
+	public void hold(List<Integer> hold_list) throws IllegalCommandException, EmptyDeckException {
 		if (game == null){ // só é permitido fazer hold depois de iniciar o jogo
 			throw new IllegalCommandException();
 		}

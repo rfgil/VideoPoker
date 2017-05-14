@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.card_game.Deck;
+import com.card_game.exceptions.EmptyDeckException;
 
 public class Game {
 
@@ -14,7 +15,7 @@ public class Game {
 	protected Hand hand;
 	private List<Integer> hold_list;
 	
-	public Game(Deck deck) {
+	public Game(Deck deck) throws EmptyDeckException {
 		this.deck = deck;
 		this.hold_list = new ArrayList<Integer>(0); // Não faz hold de nenhuma carta por defeito
 		
@@ -28,7 +29,7 @@ public class Game {
 		this.hold_list = hold_list;
 	}
 		
-	public void draw(){
+	public void draw() throws EmptyDeckException{
 		boolean[] hold = new boolean[HAND_SIZE]; // Iniciliza a false
 		
 		for(int hold_pos : hold_list){
