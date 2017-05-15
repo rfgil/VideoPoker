@@ -13,12 +13,15 @@ public class StraightEvaluator implements HandEvaluator {
 	private StraightArrayList best_straight;
 	private CardPos ace;
 	
+	private int card_counter;
+	
 	public StraightEvaluator(){	
 		straights = new ArrayList<StraightArrayList>();
 		straights.add(new StraightArrayList());
 		
 		best_straight = null;
 		ace = null;
+		card_counter = 0;
 	}
 	
 	private void insertCard(CardPos card_pos){
@@ -30,11 +33,13 @@ public class StraightEvaluator implements HandEvaluator {
 			//}
 		}
 		
-		if (straights.get(straights.size() -1).isFull()){
-			// Cria nova possivel straight e adiciona a carta recebida (se existir pelo menos um gap na ultima lista disponivel)
+		// Já não vale a pena criar mais possiveis listas de straights porque só virá no máximo mais uma carta, 
+		// o que não é suficiente para uma straight
+		if (card_counter < Game.HAND_SIZE - 1){
 			straights.add(new StraightArrayList());
 			straights.get(straights.size() -1).add(card_pos);
 		}
+		card_counter ++;
 	}
 	
 	@Override
@@ -72,7 +77,7 @@ public class StraightEvaluator implements HandEvaluator {
 		case 5:
 			return AdviceRank.Straight;
 		case 4:
-			if (best_straight.getGapCount() == 0){
+			if (best_straight.getGapCount() == 0 && best_straight.get(0).card.getRank() != CardRank.A && best_straight.get(3).card.getRank() != CardRank.A){
 				return AdviceRank._4_to_OutsideStraight;
 				
 			} else if (best_straight.getHighCardCount() == 3){ // Não é possivel ter mais que 3 high cards e inside straight

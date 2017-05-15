@@ -42,12 +42,12 @@ public class VideoPokerPlayer extends Player{
 			//str += rank + "\t" + stats[rank.ordinal()].getOcurrences() + "\n";
 		}
 		
-		double gain = ( this.getBalance() - this.getInitialBalance() ) / (double) this.getInitialBalance();
+		double gain = (( this.getBalance() - this.getInitialBalance() ) / (double) this.getInitialBalance()) * 100;
 		
 		str += "-------------------------------\n";
 		str += String.format("%-15s%15d\n", "Total", total_ocorrences);
 		str += "-------------------------------\n";
-		str += String.format("%-15s%15s\n", "Credit", this.getBalance() + " (" + gain + "%)");
+		str += String.format("%-15s(%4.2f%%) %5d\n", "Credit", gain, this.getBalance());
 		//str += "-------------\nCredit\t" + this.getBalance() + " (" + gain + "%)";
 		
 		System.out.println(str);

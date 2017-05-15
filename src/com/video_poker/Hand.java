@@ -64,11 +64,14 @@ public class Hand {
 		
 		// Obtem o avaliador com melhor sugestão
 		for(HandEvaluator evaluator: evaluators){
-			if (evaluator.getAdviceRank().compareTo(best_advice) < 0){
+			AdviceRank evaluator_rank = evaluator.getAdviceRank();
+			
+			if (evaluator_rank.compareTo(best_advice) > 0){
 				selected_evaluator = evaluator;
+				best_advice = evaluator_rank;
 			}
 		}
-		
+			
 		List<Integer> hold_vector = new ArrayList<Integer>(Game.HAND_SIZE);
 		for(CardPos card_pos : selected_evaluator.getAdviceHoldVector()){
 			hold_vector.add(card_pos.pos);

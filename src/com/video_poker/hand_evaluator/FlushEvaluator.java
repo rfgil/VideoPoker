@@ -36,7 +36,9 @@ public class FlushEvaluator implements HandEvaluator {
 		for(List<CardPos> suit_list : suits){
 			// Avalia tamanho da lista com as cartas de cada naipe
 			int size = suit_list.size();
+			
 			AdviceRank current_advice = AdviceRank.DiscardEverything;
+			List<CardPos> current_hold_list = new ArrayList<CardPos>();	
 			
 			if (size <= 1){
 				continue;
@@ -72,52 +74,53 @@ public class FlushEvaluator implements HandEvaluator {
 					return AdviceRank.QJ_suited; // Não é possivel existir melhor
 					
 				} else if (size == 3 && high_card_count == 2){ // 3 to flush (with 2 high cards)
-					advice_hold_list = suit_list;
+					current_hold_list = suit_list;
 					//advice_rank = 17;
-					return AdviceRank._3_to_flush_with_2_HighCards; // Não é possivel existir melhor
+					current_advice = AdviceRank._3_to_flush_with_2_HighCards; // Não é possivel existir melhor
 					
 				} else if(size == 2 && high_card_count == 2){ // 2 suited high cards
-					advice_hold_list = suit_list;
+					current_hold_list = suit_list;
 					//advice_rank = 18;
 					current_advice = AdviceRank._2_suited_HighCards;
 					
 				} else if (cards[CardRank.J.ordinal()] != null && cards[CardRank.T.ordinal()] != null) { // JT suited
-					advice_hold_list = new ArrayList<CardPos>(2); // A lista suit_list pode conter 3 elementos neste caso, mas apenas se pretendem guardar 2
-					advice_hold_list.add(cards[CardRank.J.ordinal()]);
-					advice_hold_list.add(cards[CardRank.T.ordinal()]);
+					current_hold_list = new ArrayList<CardPos>(2); // A lista suit_list pode conter 3 elementos neste caso, mas apenas se pretendem guardar 2
+					current_hold_list.add(cards[CardRank.J.ordinal()]);
+					current_hold_list.add(cards[CardRank.T.ordinal()]);
 					//advice_rank = 23;
 					current_advice = AdviceRank.JT_suited;
 
 				} else if(size == 3 && high_card_count == 1) { // 3 to a flush with 1 high card
-					advice_hold_list = suit_list;
+					current_hold_list = suit_list;
 					//advice_rank = 25; 
-					return AdviceRank._3_to_flush_with_1_HighCard; // Não é possivel existir melhor
+					current_advice =  AdviceRank._3_to_flush_with_1_HighCard; // Não é possivel existir melhor
 				
 				} else if (cards[CardRank.Q.ordinal()] != null && cards[CardRank.T.ordinal()] != null) { // QT suited
-					advice_hold_list = new ArrayList<CardPos>(2); // A lista suit_list pode conter 3 elementos neste caso, mas apenas se pretendem guardar 2
-					advice_hold_list.add(cards[CardRank.Q.ordinal()]);
-					advice_hold_list.add(cards[CardRank.T.ordinal()]);
+					current_hold_list = new ArrayList<CardPos>(2); // A lista suit_list pode conter 3 elementos neste caso, mas apenas se pretendem guardar 2
+					current_hold_list.add(cards[CardRank.Q.ordinal()]);
+					current_hold_list.add(cards[CardRank.T.ordinal()]);
 					//advice_rank = 26;
 					current_advice = AdviceRank.QT_suited;
 				
 				} else if(cards[CardRank.K.ordinal()] != null && cards[CardRank.T.ordinal()] != null) { // KT suited
-					advice_hold_list = new ArrayList<CardPos>(2); // A lista suit_list pode conter 3 elementos neste caso, mas apenas se pretendem guardar 2
-					advice_hold_list.add(cards[CardRank.K.ordinal()]);
-					advice_hold_list.add(cards[CardRank.T.ordinal()]);
+					current_hold_list = new ArrayList<CardPos>(2); // A lista suit_list pode conter 3 elementos neste caso, mas apenas se pretendem guardar 2
+					current_hold_list.add(cards[CardRank.K.ordinal()]);
+					current_hold_list.add(cards[CardRank.T.ordinal()]);
 					//advice_rank = 30;
 					current_advice = AdviceRank.KT_suited;
 				
 				} else if(size == 3 && high_card_count == 0){ // 3 to a flush with no high card
-					advice_hold_list = suit_list;
+					current_hold_list = suit_list;
 					//advice_rank = 33; 
-					return AdviceRank._3_to_flush_with_0_HighCards; // Não é possivel existir melhor
+					current_advice = AdviceRank._3_to_flush_with_0_HighCards; // Não é possivel existir melhor
 				}	
 			}
 			
-			if (current_advice.compareTo(final_advice) < 0){
+			if (current_advice.compareTo(final_advice) > 0){
 				// Se current_advice for melhor que final_advice 
 				// (melhor implica mais pequeno uma vez que as melhores sugestões estão no topo)
 				final_advice = current_advice;
+				advice_hold_list = current_hold_list;
 			}
 		}
 		

@@ -87,23 +87,9 @@ public class StraightArrayList extends ArrayList<CardPos> {
 		return n_gaps;
 	}
 	
-	/*
-	public StraightRank getStraightRank(){		
-		switch(this.size()){
-			case 5:
-				return StraightRank.Straight;
-			case 4:
-				return StraightRank._4_to_straight;
-			case 3:
-				return StraightRank._3_to_straight;
-			default:
-				return StraightRank.Invalid;
-		}
-	}
-	*/
-	
 	public int getType(){
-		int totalGaps = n_gaps + Game.HAND_SIZE - this.size();
+		// int totalGaps = n_gaps + Game.HAND_SIZE - this.size();
+		int totalGaps = n_gaps; //getTotalGaps();
 		
 		if (this.size() == 3 &&
 		    this.get(0).card.getRank() == CardRank._2 &&
@@ -134,6 +120,20 @@ public class StraightArrayList extends ArrayList<CardPos> {
 		return true;
 	}
 	
+	public int getHighestRankValue(){
+		if (this.size() == 0){
+			return 0;
+		}
+		
+		CardRank rank = this.get(this.size() - 1).card.getRank();
+		
+		if (rank == CardRank.A){
+			return CardRank.A.ordinal() + CardRank.values().length;
+		} else {
+			return rank.ordinal();
+		}
+	}
+	
 	/**
 	 * Compares this straight with the specified straight object for order. Returns a negative integer, zero, or a positive integer as this straight is worse than, equal to, or better than the specified straight. 
 	 * @param item Straight to compare with.
@@ -150,9 +150,13 @@ public class StraightArrayList extends ArrayList<CardPos> {
 
 		int diff = item1.size() - item2.size(); 
 		if (diff == 0){
-			// Não são necessárias mais condições porque listas com menos de 3 cartas não são consideradas sequencias
-			// e o tamanho máximo da mão é 5
-			return item2.getType() - item1.getType(); // Quanto maior o tipo, pior é item
+			int type_diff = item2.getType() - item1.getType();
+			
+			if (type_diff == 0){
+				return item1.getHighestRankValue() - item2.getHighestRankValue();
+			}
+
+			return type_diff; // Quanto maior o tipo, pior é item
 		} else {
 			return diff;
 		}

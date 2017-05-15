@@ -22,8 +22,7 @@ public class FullHouseEvaluator implements HandEvaluator{
 
 	@Override
 	public AdviceRank getAdviceRank() {
-		if ((pair.getAdviceRank() == AdviceRank.HighPair || pair.getAdviceRank() == AdviceRank.LowPair) &&
-		     toak.getHandRank() == HandRank.TOAK){
+		if (pair.getAdviceRank() == AdviceRank.TwoPair && toak.getHandRank() == HandRank.TOAK){
 			return AdviceRank.FullHouse;
 		}
 		
@@ -34,10 +33,16 @@ public class FullHouseEvaluator implements HandEvaluator{
 	public List<CardPos> getAdviceHoldVector() {
 		ArrayList<CardPos> hold_list = new ArrayList<CardPos>();
 		
-		if ((pair.getAdviceRank() == AdviceRank.HighPair || pair.getAdviceRank() == AdviceRank.LowPair) &&
-			 toak.getHandRank() == HandRank.TOAK){
-			hold_list.addAll(pair.getAdviceHoldVector());
+		if (pair.getAdviceRank() == AdviceRank.TwoPair && toak.getHandRank() == HandRank.TOAK){
 			hold_list.addAll(toak.getAdviceHoldVector());
+			//hold_list.addAll(pair.getAdviceHoldVector());
+			
+			// Impede que a mesma carta seja inserida duas vezes no hold vector
+			for(CardPos pair_card : pair.getAdviceHoldVector()){
+				if(pair_card.card.getRank() != hold_list.get(0).card.getRank()){
+					hold_list.add(pair_card);
+				}
+			}
 		}
 		
 		return hold_list;
@@ -45,8 +50,7 @@ public class FullHouseEvaluator implements HandEvaluator{
 
 	@Override
 	public HandRank getHandRank() {
-		if ((pair.getAdviceRank() == AdviceRank.HighPair || pair.getAdviceRank() == AdviceRank.LowPair) &&
-		     toak.getHandRank() == HandRank.TOAK){
+		if (pair.getAdviceRank() == AdviceRank.TwoPair && toak.getHandRank() == HandRank.TOAK){
 			return HandRank.FullHouse;
 		}
 		

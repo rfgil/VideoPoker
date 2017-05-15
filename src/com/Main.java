@@ -36,22 +36,24 @@ public class Main {
 		}
 		
 		try {
-			card = new FileInputStream("/home/rafael/card");
+			card = new FileInputStream("/home/rafael/card_test");
 		} catch (FileNotFoundException e2) {
 			System.out.println("card input file was not found");
 		}
 		
 		
-		VideoPokerPlayer player = new VideoPokerPlayer(500000);
+		VideoPokerPlayer player = new VideoPokerPlayer(5000000);
 		
-		try {
-			player.credit(50);
-		} catch (NotEnoughBalanceException e) {}
 		
-		System.out.println(player.getBalance());
 		//VideoPoker cena = new InteractiveVideoPoker(player);
 		
-		VideoPoker cena = new SimulationVideoPoker(player, 1000000, 5);
+		VideoPoker cena = null;
+		try {
+			cena = new SimulationVideoPoker(player, 81, 5, card);
+		} catch (InvalidCardStringException e) {
+			e.printStackTrace();
+		}
+		
 		
 		/*
 		VideoPoker cena = null;
@@ -61,6 +63,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		*/
+		
 		cena.play();
 			
 		
