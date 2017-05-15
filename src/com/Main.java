@@ -30,6 +30,7 @@ public class Main {
 		switch(args[0]){
 			case "-i":
 				game = new InteractiveVideoPoker(player);
+				break;
 				
 			case "-d":
 				FileInputStream cmd = null;
@@ -51,6 +52,7 @@ public class Main {
 				} catch (InvalidCardStringException e) {
 					System.out.println("provided card file has an error");
 				}
+				break;
 				
 			case "-s":
 				try {
@@ -58,10 +60,12 @@ public class Main {
 				} catch(NumberFormatException e){
 					System.out.println("imcompatible arguments");
 				}
+				break;
 				
 				
 			case "-g":
 				//game = new GuiVideoPoker(player);
+				break;
 				
 			default:
 				System.out.println("invalid mode");

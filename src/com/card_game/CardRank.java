@@ -33,7 +33,7 @@ public enum CardRank {
 	 */	
 	public static int difference(CardRank rank1, CardRank rank2, boolean isRank1HighAce){
 		if (isRank1HighAce){		
-			if (difference(rank1, rank2) == 0){ // Se forem ambos um Ã�s a diferenÃ§a continua a ser 0
+			if (difference(rank1, rank2) == 0){ // Se forem ambos um AS a diferença continua a ser 0
 				return 0;
 			} else if (rank1.equals(A)){
 				return difference(rank1, rank2) + CardRank.values().length;
