@@ -1,30 +1,34 @@
 package com;
 
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 import com.video_poker.*;
-import com.video_poker.hand_evaluator.*;
-import com.card_game.*;
+
 import com.card_game.exceptions.InvalidCardStringException;
-import com.card_game.exceptions.NotEnoughBalanceException;
 
 public class Main {
-
-	public Main() {
-		// TODO Auto-generated constructor stub
-	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//Deck mydeck = new Deck();
 		
-		VideoPokerPlayer player = new VideoPokerPlayer(Integer.parseInt(args[1]));
+		int initialBalance = 0;
+		if (args.length == 0){
+			System.out.println("insuficient arguments");
+			System.exit(1);
+			
+		} else if (args.length > 1){
+			try {
+				initialBalance = Integer.parseInt(args[1]);
+			} catch (NumberFormatException e){
+				System.out.println("imcompatible arguments");
+				System.exit(1);
+			}
+		}
+		
+		VideoPokerPlayer player = new VideoPokerPlayer(initialBalance);
 		VideoPoker game = null;
 		
 		switch(args[0]){
@@ -45,12 +49,14 @@ public class Main {
 					System.exit(1);
 				} catch(NumberFormatException e){
 					System.out.println("imcompatible arguments");
+					System.exit(1);
 				}
 				
 				try {
 					game = new DebugVideoPoker(player, cmd, card);
 				} catch (InvalidCardStringException e) {
 					System.out.println("provided card file has an error");
+					System.exit(1);
 				}
 				break;
 				
@@ -59,11 +65,14 @@ public class Main {
 					game = new SimulationVideoPoker(player, Integer.parseInt(args[3]), Integer.parseInt(args[2]));
 				} catch(NumberFormatException e){
 					System.out.println("imcompatible arguments");
+					System.exit(1);
 				}
 				break;
 				
 				
 			case "-g":
+				game = new GuiVideoPoker(player);
+				
 				//game = new GuiVideoPoker(player);
 				break;
 				

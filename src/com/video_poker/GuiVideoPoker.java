@@ -1,164 +1,159 @@
 package com.video_poker;
-import java.awt.EventQueue;
+
+//import java.awt.EventQueue;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
+
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.JSpinner;
 
-public class GuiVideoPoker { //extends VideoPoker {
+
+public class GuiVideoPoker extends VideoPoker {
 
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField txtBalance;
 	
-
+	
 	/**
 	 * Launch the application.
+	 * @wbp.parser.entryPoint
 	 */
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GuiVideoPoker window = new GuiVideoPoker();
-					window.frame.setVisible(true);
+					//GuiVideoPoker window = new GuiVideoPoker();
+					//window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-
-	/**
-	 * Create the application.
-	 */
-	public GuiVideoPoker() { //VideoPokerPlayer player) {
-		//super(player);
-		initialize();
-	}
+*/
+	
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @wbp.parser.entryPoint
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 459, 483);
+		frame.setBounds(100, 100, 425, 436);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JToggleButton btnNewButton = new JToggleButton("Hold");
-		btnNewButton.setBounds(12, 275, 72, 25);
-		frame.getContentPane().add(btnNewButton);
+		JButton btnDeal = new JButton("Deal!");
+		btnDeal.setEnabled(false);
+		btnDeal.setBounds(235, 318, 151, 25);
+		frame.getContentPane().add(btnDeal);
 		
-		JToggleButton button = new JToggleButton("Hold");
-		button.setBounds(96, 274, 72, 25);
-		frame.getContentPane().add(button);
+		JToggleButton btnHold0 = new JToggleButton("Hold");
+		btnHold0.setBounds(12, 211, 70, 25);
+		frame.getContentPane().add(btnHold0);
 		
-		JToggleButton button_1 = new JToggleButton("Hold");
-		button_1.setBounds(178, 274, 72, 25);
-		frame.getContentPane().add(button_1);
+		JToggleButton btnHold1 = new JToggleButton("Hold");
+		btnHold1.setBounds(94, 211, 70, 25);
+		frame.getContentPane().add(btnHold1);
 		
-		JToggleButton button_2 = new JToggleButton("Hold");
-		button_2.setBounds(262, 273, 72, 25);
-		frame.getContentPane().add(button_2);
+		JToggleButton btnHold2 = new JToggleButton("Hold");
+		btnHold2.setBounds(176, 211, 70, 25);
+		frame.getContentPane().add(btnHold2);
 		
-		JToggleButton button_3 = new JToggleButton("Hold");
-		button_3.setBounds(345, 273, 72, 25);
-		frame.getContentPane().add(button_3);
+		JToggleButton btnHold3 = new JToggleButton("Hold");
+		btnHold3.setBounds(258, 211, 70, 25);
+		frame.getContentPane().add(btnHold3);
 		
-		JButton btnGo = new JButton("Go!");
-		btnGo.setBounds(12, 311, 72, 25);
-		frame.getContentPane().add(btnGo);
+		JToggleButton btnHold4 = new JToggleButton("Hold");
+		btnHold4.setBounds(340, 211, 70, 25);
+		frame.getContentPane().add(btnHold4);
 		
-		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_1.setBounds(180, 174, 72, 94);
-		frame.getContentPane().add(tabbedPane_1);
+		JLabel lblCard0 = new JLabel("Card1");
+		lblCard0.setBounds(12, 175, 56, 16);
+		frame.getContentPane().add(lblCard0);
 		
-		JTabbedPane tabbedPane_2 = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_2.setBounds(262, 174, 72, 94);
-		frame.getContentPane().add(tabbedPane_2);
+		JLabel lblCard1 = new JLabel("Card2");
+		lblCard1.setBounds(94, 175, 56, 16);
+		frame.getContentPane().add(lblCard1);
 		
-		JTabbedPane tabbedPane_3 = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_3.setBounds(345, 174, 72, 94);
-		frame.getContentPane().add(tabbedPane_3);
+		JLabel lblCard2 = new JLabel("Card3");
+		lblCard2.setBounds(176, 175, 56, 16);
+		frame.getContentPane().add(lblCard2);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(96, 174, 72, 94);
-		frame.getContentPane().add(tabbedPane);
+		JLabel lblCard3 = new JLabel("Card4");
+		lblCard3.setBounds(258, 175, 56, 16);
+		frame.getContentPane().add(lblCard3);
 		
-		JTabbedPane tabbedPane_4 = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_4.setBounds(12, 174, 71, 94);
-		frame.getContentPane().add(tabbedPane_4);
+		JLabel lblCard4 = new JLabel("Card5");
+		lblCard4.setBounds(340, 175, 56, 16);
+		frame.getContentPane().add(lblCard4);
 		
-		JButton btnSuggestion = new JButton("Suggestion");
-		btnSuggestion.setBounds(320, 311, 97, 25);
-		frame.getContentPane().add(btnSuggestion);
+		JButton btnAdvice = new JButton("Advice");
+		btnAdvice.setEnabled(false);
+		btnAdvice.setBounds(12, 318, 97, 25);
+		frame.getContentPane().add(btnAdvice);
 		
-		JButton btnDraw = new JButton("Draw");
-		btnDraw.setBounds(12, 134, 72, 25);
-		frame.getContentPane().add(btnDraw);
+		JLabel lblAdvice = new JLabel("Advice Label");
+		lblAdvice.setBounds(121, 320, 121, 21);
+		frame.getContentPane().add(lblAdvice);
 		
-		JLabel lblPlayerName = new JLabel("Player Name:");
-		lblPlayerName.setBounds(12, 13, 87, 18);
-		frame.getContentPane().add(lblPlayerName);
-		
-		JLabel lblBet = new JLabel("bet:");
-		lblBet.setBounds(12, 69, 77, 22);
+		JLabel lblBet = new JLabel("Bet Ammount:");
+		lblBet.setBounds(12, 280, 97, 25);
 		frame.getContentPane().add(lblBet);
 		
-		JLabel lblCard = new JLabel("card1");
-		lblCard.setBounds(12, 204, 66, 64);
-		frame.getContentPane().add(lblCard);
+		JButton btnBet = new JButton("Bet!");
+		btnBet.setBounds(235, 280, 151, 25);
+		frame.getContentPane().add(btnBet);
 		
-		JLabel label = new JLabel("card1");
-		label.setBounds(96, 204, 67, 64);
-		frame.getContentPane().add(label);
-		
-		JLabel label_1 = new JLabel("card1");
-		label_1.setBounds(180, 204, 67, 64);
-		frame.getContentPane().add(label_1);
-		
-		JLabel label_3 = new JLabel("card1");
-		label_3.setBounds(346, 204, 67, 64);
-		frame.getContentPane().add(label_3);
-		
-		JLabel lblCredit = new JLabel("Initial Credit:");
-		lblCredit.setBounds(12, 39, 87, 22);
+		JLabel lblCredit = new JLabel("Credit:");
+		lblCredit.setBounds(53, 78, 56, 25);
 		frame.getContentPane().add(lblCredit);
 		
-		textField = new JTextField();
-		textField.setBounds(116, 10, 116, 22);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
+		JButton btnCredit = new JButton("Credit!");
+		btnCredit.setBounds(258, 78, 97, 25);
+		frame.getContentPane().add(btnCredit);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(116, 39, 116, 22);
-		frame.getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+		JLabel label_4 = new JLabel("Players Balance:");
+		label_4.setBounds(12, 40, 97, 25);
+		frame.getContentPane().add(label_4);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(116, 69, 116, 22);
-		frame.getContentPane().add(textField_2);
-		textField_2.setColumns(10);
+		txtBalance = new JTextField();
+		txtBalance.setEditable(false);
+		txtBalance.setColumns(10);
+		txtBalance.setBounds(121, 41, 116, 22);
+		frame.getContentPane().add(txtBalance);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(214, 382, 106, 25);
-		frame.getContentPane().add(textArea);
+		JButton btnConfirmHold = new JButton("Comfirm Hold!");
+		btnConfirmHold.setEnabled(false);
+		btnConfirmHold.setBounds(235, 357, 151, 25);
+		frame.getContentPane().add(btnConfirmHold);
 		
-		JLabel lblTotal = new JLabel("Total:");
-		lblTotal.setBounds(164, 382, 38, 25);
-		frame.getContentPane().add(lblTotal);
+		JSpinner numCredit = new JSpinner();
+		numCredit.setBounds(123, 81, 109, 25);
+		frame.getContentPane().add(numCredit);
 		
-		JTextArea textArea_1 = new JTextArea();
-		textArea_1.setBounds(311, 134, 106, 22);
-		frame.getContentPane().add(textArea_1);
+		JSpinner numBetAmmount = new JSpinner();
+		numBetAmmount.setBounds(121, 283, 86, 18);
+		frame.getContentPane().add(numBetAmmount);
+	}
+	
+	
+	/**
+	 * Create the application.
+	 * @wbp.parser.entryPoint
+	 */
+	public GuiVideoPoker(VideoPokerPlayer player) {
+		super(player);
+		
 	}
 
-	/*
+	
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	@Override
 	public void handAfterDeal(Hand hand) {
 		// TODO Auto-generated method stub
@@ -171,10 +166,12 @@ public class GuiVideoPoker { //extends VideoPoker {
 		
 	}
 
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	@Override
 	public void play() {
-		// TODO Auto-generated method stub
-		
+		initialize();
+		this.frame.setVisible(true);
 	}
-	*/
 }
