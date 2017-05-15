@@ -29,6 +29,11 @@ public class Deck {
 		shuffle();
 	}
 	
+	/**
+	 * Cria o deck, adicionando cartas do scanner
+	 * @param card_file InputStream
+	 * @throws InvalidCardStringException
+	 */
 	public Deck(InputStream card_file) throws InvalidCardStringException {	
 		isGenerated = false;
 		current_card = 0;
@@ -43,6 +48,11 @@ public class Deck {
 		scanner.close();
 	}
 	
+	/**
+	 * Retira uma carta do baralho
+	 * @return Card
+	 * @throws EmptyDeckException Caso o baralho n�o tenha mais cartas
+	 */
 	public Card draw() throws EmptyDeckException{		
 		if (current_card < deck.size()){
 			current_card ++;
@@ -52,6 +62,9 @@ public class Deck {
 		}
 	}
 	
+	/**
+	 * Baralha o Deck recorrendo ao Random do java
+	 */
 	public void shuffle(){
 		if (isGenerated){ // Só permite baralhar se o baralho foi gerado e não lido de um ficheiro
 			// Fisher–Yates shuffle

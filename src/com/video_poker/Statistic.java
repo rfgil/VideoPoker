@@ -18,7 +18,11 @@ public class Statistic {
 		this.invested_credits = 0;
 		this.gained_credits = 0;
 	}
-	
+	/**
+	 * Faz update das estatísticas a calcular
+	 * @param credits - crédito a atualizar
+	 * @throws InvalidBetAmmountException
+	 */
 	public void update(int credits) throws InvalidBetAmmountException{
 		this.occurrences ++;
 		this.invested_credits += credits;

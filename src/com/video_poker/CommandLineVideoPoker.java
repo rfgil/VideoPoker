@@ -101,6 +101,9 @@ public abstract class CommandLineVideoPoker extends VideoPoker {
 		}
 	}
 	
+	/**
+	 * Imprime o conselho relativo à jogada
+	 */
 	private void printAdvice(){
 		List<Integer> list;
 		String str;
@@ -147,7 +150,14 @@ public abstract class CommandLineVideoPoker extends VideoPoker {
 	protected boolean commandLinePlay(char command, Scanner scanner) {
 		return commandLinePlay(command, scanner, false);
 	}
-		
+	
+	/**
+	 * Corre o jogo pelo terminal, chamando os diferentes m�todos consoante o command selecionado
+	 * @param command - caracter que define o comando a ser implementado
+	 * @param scanner - para leitura do teclado
+	 * @param printScannerInput - booleano
+	 * @return
+	 */
 	protected boolean commandLinePlay(char command, Scanner scanner, boolean printScannerInput) {
 		switch(command){
 			case 'b': // bet

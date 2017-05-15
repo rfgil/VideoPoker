@@ -24,70 +24,51 @@ public class Main {
 		// TODO Auto-generated method stub
 		//Deck mydeck = new Deck();
 		
-	
+		VideoPokerPlayer player = new VideoPokerPlayer(Integer.parseInt(args[1]));
+		VideoPoker game = null;
 		
-		FileInputStream cmd = null;
-		FileInputStream card = null;
-		
-		try {
-			cmd = new FileInputStream("/home/rafael/cmd");
-		} catch (FileNotFoundException e2) {
-			System.out.println("cmd input file was not found");
+		switch(args[0]){
+			case "-i":
+				game = new InteractiveVideoPoker(player);
+				
+			case "-d":
+				FileInputStream cmd = null;
+				FileInputStream card = null;
+				
+				try {
+					cmd = new FileInputStream(args[2]);
+					card = new FileInputStream(args[3]);
+					
+				} catch (FileNotFoundException e) {
+					System.out.println("cmd input file was not found");
+					System.exit(1);
+				} catch(NumberFormatException e){
+					System.out.println("imcompatible arguments");
+				}
+				
+				try {
+					game = new DebugVideoPoker(player, cmd, card);
+				} catch (InvalidCardStringException e) {
+					System.out.println("provided card file has an error");
+				}
+				
+			case "-s":
+				try {
+					game = new SimulationVideoPoker(player, Integer.parseInt(args[3]), Integer.parseInt(args[2]));
+				} catch(NumberFormatException e){
+					System.out.println("imcompatible arguments");
+				}
+				
+				
+			case "-g":
+				//game = new GuiVideoPoker(player);
+				
+			default:
+				System.out.println("invalid mode");
+				System.exit(1);
 		}
 		
-		try {
-			card = new FileInputStream("/home/rafael/card_test");
-		} catch (FileNotFoundException e2) {
-			System.out.println("card input file was not found");
-		}
-		
-		
-		VideoPokerPlayer player = new VideoPokerPlayer(5000000);
-		
-		
-		//VideoPoker cena = new InteractiveVideoPoker(player);
-		
-		VideoPoker cena = null;
-		try {
-			cena = new SimulationVideoPoker(player, 81, 5, card);
-		} catch (InvalidCardStringException e) {
-			e.printStackTrace();
-		}
-		
-		
-		/*
-		VideoPoker cena = null;
-		try {
-			cena = new DebugVideoPoker(player, cmd, card);
-		} catch (InvalidCardStringException e) {
-			e.printStackTrace();
-		}
-		*/
-		
-		cena.play();
-			
-		
-		/*
-		List<CardPos> hand = new ArrayList<CardPos>();	
-		
-		hand.add(new CardPos(new Card(CardRank.J, CardSuit.CLUBS), 0));
-		hand.add(new CardPos(new Card(CardRank.K, CardSuit.DIAMONDS), 0));
-		hand.add(new CardPos(new Card(CardRank.Q, CardSuit.CLUBS), 0));
-		hand.add(new CardPos(new Card(CardRank.T, CardSuit.CLUBS), 0));
-		hand.add(new CardPos(new Card(CardRank._9, CardSuit.CLUBS), 0));
-		
-		hand.sort(new CardPosComparator());
-		
-		HandEvaluator evaluator = new StraightEvaluator();
-		
-		for(CardPos card_pos : hand){
-			evaluator.addCard(card_pos);
-		}
-		
-		System.out.println(evaluator.getAdviceRank());
-		System.out.println(evaluator.getAdviceHoldVector());
-		System.out.println(evaluator.getHandRank());
-		*/
+		game.play();
 	}
 
 }

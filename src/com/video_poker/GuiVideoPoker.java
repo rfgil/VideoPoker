@@ -9,12 +9,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
-public class GuiVideoPoker {
+public class GuiVideoPoker { //extends VideoPoker {
 
 	private JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	
 
 	/**
 	 * Launch the application.
@@ -35,7 +36,8 @@ public class GuiVideoPoker {
 	/**
 	 * Create the application.
 	 */
-	public GuiVideoPoker() {
+	public GuiVideoPoker() { //VideoPokerPlayer player) {
+		//super(player);
 		initialize();
 	}
 
@@ -156,4 +158,23 @@ public class GuiVideoPoker {
 		frame.getContentPane().add(textArea_1);
 	}
 
+	/*
+	@Override
+	public void handAfterDeal(Hand hand) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handAfterHold(Hand hand) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void play() {
+		// TODO Auto-generated method stub
+		
+	}
+	*/
 }

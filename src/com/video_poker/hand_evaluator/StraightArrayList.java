@@ -119,7 +119,10 @@ public class StraightArrayList extends ArrayList<CardPos> {
 		
 		return true;
 	}
-	
+	/**
+	 * Retorna o maior Rank 
+	 * @return
+	 */
 	public int getHighestRankValue(){
 		if (this.size() == 0){
 			return 0;

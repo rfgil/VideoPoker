@@ -24,10 +24,16 @@ public enum CardRank {
 		return str;
 	}
 	
-		
+	/**
+	 * Retorna a diferenca entre duas cartas	
+	 * param rank1 primeira carta
+	 * param rank2 segunda carta
+	 * param isRank1HighAce booleano que indica se é um high ace
+	 * return diferenca entre duas cartas
+	 */	
 	public static int difference(CardRank rank1, CardRank rank2, boolean isRank1HighAce){
 		if (isRank1HighAce){		
-			if (difference(rank1, rank2) == 0){ // Se forem ambos um Ás a diferença continua a ser 0
+			if (difference(rank1, rank2) == 0){ // Se forem ambos um Ã�s a diferenÃ§a continua a ser 0
 				return 0;
 			} else if (rank1.equals(A)){
 				return difference(rank1, rank2) + CardRank.values().length;
@@ -40,6 +46,12 @@ public enum CardRank {
 		return difference(rank1, rank2);
 	}
 	
+	/**
+	 * Retorna a diferença em inteiro
+	 * param rank1 primeira carta
+	 * param rank2 segunda carta
+	 * return diferenca
+	 */
 	public static int difference(CardRank rank1, CardRank rank2){
 		return rank1.ordinal() - rank2.ordinal();
 	}

@@ -30,6 +30,9 @@ public class VideoPokerPlayer extends Player{
 		}
 	}
 	
+	/**
+	 * Imprime as estatísticas
+	 */
 	public void printStatistics(){
 		String str = String.format("%-15s%15s\n", "Hand", "Nb");;	
 		str += "-------------------------------\n";

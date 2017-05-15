@@ -20,6 +20,9 @@ public class Hand {
 		this.cards = new ArrayList<CardPos>(Game.HAND_SIZE);
 	}
 	
+	/**
+	 * Inicia o vector de avaliadores
+	 */
 	private void renewEvaluators(){
 		this.evaluators = new HandEvaluator[8];
 		
@@ -35,10 +38,21 @@ public class Hand {
 		evaluators[7] = new StraightFlushEvaluator();
 	}
 	
+	/**
+	 * Adiciona carta
+	 * @param pos - posição
+	 * @param card - carta a adicionar
+	 */
 	protected void addCard(int pos, Card card){
 		cards.add(new CardPos(card, pos));
 	}
 	
+	/**
+	 * Troca as cartas que não são mantidas
+	 * @param hold - vector de booleanos com as posições a manter
+	 * @param deck - baralho
+	 * @throws EmptyDeckException
+	 */
 	protected void swapCards(boolean[] hold, Deck deck) throws EmptyDeckException{
 		// Procura pela carta na posiÃ§Ã£o pretendida
 		for(CardPos item: cards){
@@ -48,6 +62,9 @@ public class Hand {
 		}
 	}
 	
+	/*
+	 * Dá o conselho através do vector de avaliadores
+	 */
 	protected List<Integer> getAdvice(){
 		renewEvaluators();
 		cards.sort(new CardPosComparator());
@@ -80,6 +97,10 @@ public class Hand {
 		return hold_vector;
 	}
 	
+	/**
+	 * Dá a classificação da mão de acordo com o vector de avaliadores
+	 * @return
+	 */
 	protected HandRank getHandRank(){
 		renewEvaluators();
 		cards.sort(new CardPosComparator());

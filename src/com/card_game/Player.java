@@ -8,10 +8,19 @@ public class Player {
 	private int initialBalance;
 	
 	public Player(int initialBalance) {
+		if (initialBalance < 0){ // Inicializa banca a 0 se um valor negativo for introduzido
+			initialBalance = 0;
+		}
+		
 		this.initialBalance = initialBalance;
 		this.balance = initialBalance;
 	}
 	
+	/**
+	 * Faz crédito de um valor no balanço de um jogador
+	 * @param value - valor a adicionar
+	 * @throws NotEnoughBalanceException
+	 */
 	public void credit(int value) throws NotEnoughBalanceException{
 		if (value >= 0){
 			balance += value;
@@ -21,6 +30,11 @@ public class Player {
 		}
 	}
 	
+	/**
+	 * Faz débito de um valor no balanço de um jogador
+	 * @param value - valor a retirar
+	 * @throws NotEnoughBalanceException
+	 */
 	public void debit(int value) throws NotEnoughBalanceException {
 		if (value < 0){
 			// Fazer debito de um valor negativo corresponde a fazer credito do seu simetrico
